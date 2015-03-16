@@ -11,3 +11,9 @@
         -js 输出的js
         -css 输出的css
 
+
+##依赖
+* Node.js 环境
+* Browserify.js
+* TmodJS
+* Sass

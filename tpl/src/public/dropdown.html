@@ -1,0 +1,15 @@
+<div class="dropdown">
+    <ul>
+        {{each res}}
+        <li>
+            <a href="#">
+                <h3>{{ $value.name }}</h3>
+                <div class="row">
+                    <span>{{$value.teacher}}</span>
+                    <span>{{$value.catagory}}</span>
+                </div>
+            </a>
+        </li>
+        {{/each}}
+    </ul>
+</div>

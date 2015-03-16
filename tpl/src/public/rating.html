@@ -1,0 +1,9 @@
+<div class="rating">
+    {{ each rating }}
+        {{ if $value == 1 }}
+            <i class="icon-star"></i>
+        {{ else }}
+            <i class="icon-star-empty"></i>
+        {{ /if }}
+    {{ /each }}
+</div>

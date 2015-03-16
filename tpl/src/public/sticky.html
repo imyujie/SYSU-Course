@@ -1,0 +1,10 @@
+<div class="sticky">
+    <ul>
+        {{ each catagories }}
+            <li>
+                <span>{{ $value.name }}</span>
+                <span class="tag">{{ $value.count}}</span>
+            </li>
+        {{ /each }}
+    </ul>
+</div>

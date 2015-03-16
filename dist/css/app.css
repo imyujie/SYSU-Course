@@ -1,0 +1,366 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+input, textarea {
+  font-family: sans-serif;
+  box-shadow: none;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  font-family: sans-serif;
+}
+
+table {
+  border-spacing: 0;
+}
+
+ul li {
+  list-style: none;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+header {
+  height: 60px;
+  background-color: #424242;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  color: #efefef;
+  box-sizing: border-box;
+  padding: 14px 0;
+}
+
+.wrapper {
+  width: 700px;
+  margin: 0 auto;
+}
+
+header .logo {
+  height: 32px;
+  line-height: 32px;
+  float: left;
+}
+header h1, header h2 {
+  display: inline-block;
+}
+header h1 {
+  font-size: 24px;
+}
+header h2 {
+  opacity: .4;
+  font-weight: 200;
+  font-size: 20px;
+}
+header .controller {
+  height: 32px;
+  box-sizing: border-box;
+  float: right;
+}
+header .controller i {
+  cursor: pointer;
+  opacity: .5;
+  margin-left: 20px;
+  height: 32px;
+  line-height: 32px;
+}
+header form {
+  position: relative;
+  width: 35px;
+  display: inline-block;
+  vertical-align: top;
+  border-radius: 2px;
+  height: 100%;
+  padding-left: 0;
+  box-sizing: border-box;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+header form input {
+  position: absolute;
+  width: 100%;
+  box-sizing: border-box;
+  left: 0;
+  height: 100%;
+  padding: 0;
+  opacity: 0;
+}
+header form .fake-form {
+  cursor: pointer;
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+header form.active {
+  opacity: 1;
+  width: 240px;
+  padding-left: 30px;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+header form.active input {
+  opacity: 1;
+  padding-left: 30px;
+}
+header form.active .fake-form {
+  display: none;
+}
+header form.active .search-btn {
+  color: rgba(0, 0, 0, 0.7);
+}
+header .search-btn {
+  position: absolute;
+  left: 10px;
+  top: 0;
+  color: #efefef;
+}
+header .search-btn .icon-search {
+  margin-left: 0;
+}
+
+#container {
+  margin-top: 80px;
+  width: 500px;
+}
+
+.rating {
+  display: inline-block;
+}
+.rating i {
+  font-size: 20px;
+  color: #a6a8ad;
+  margin-left: -5px;
+}
+.rating i:first-child {
+  margin-left: 0;
+}
+
+.sticky {
+  width: 100%;
+}
+.sticky ul li {
+  cursor: pointer;
+  color: #626262;
+  opacity: 1;
+  list-style: none;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+.sticky ul li.fade {
+  opacity: .5;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.sticky ul li span {
+  float: left;
+  display: inline-block;
+}
+.sticky ul li span.tag {
+  float: right;
+  display: inline-block;
+  border-radius: 20px;
+  padding: 1px 10px;
+  background-color: #e0e0e0;
+  color: #949494;
+}
+
+.card {
+  border-radius: 6px;
+  border: 1px solid #efefef;
+  box-sizing: border-box;
+  background: #fff;
+  margin-bottom: 15px;
+  padding: 10px 20px;
+}
+.card .row {
+  overflow: hidden;
+  width: 100%;
+}
+.card .row > *:first-child {
+  float: left;
+}
+.card .row > *:last-child {
+  float: right;
+}
+.card .row h2 {
+  font-size: 20px;
+  color: #454b54;
+}
+.card .row span {
+  color: #bebebe;
+}
+.card .subtitle span {
+  margin-right: 20px;
+}
+
+.comment-write {
+  border-radius: 6px;
+  border: 1px solid #efefef;
+  box-sizing: border-box;
+  background: #fff;
+}
+.comment-write .row {
+  padding: 10px 20px;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;
+}
+.comment-write .row:last-child {
+  border-top: 1px dashed #efefef;
+}
+.comment-write textarea {
+  width: 100%;
+  height: 200px;
+  resize: none;
+}
+.comment-write input {
+  float: left;
+  height: 30px;
+  display: inline-block;
+}
+.comment-write .rating {
+  float: right;
+}
+
+.btn-group {
+  width: 100%;
+  text-align: right;
+  margin-top: 20px;
+}
+.btn-group button {
+  border-radius: 4px;
+  padding: 10px 50px;
+  background-color: #757575;
+  color: #fff;
+  margin-left: 20px;
+}
+
+.like button {
+  cursor: pointer;
+  padding: 0;
+  border-radius: 4px;
+  width: 100%;
+  background-color: #f5f5f5;
+  margin-bottom: 5px;
+}
+.like button span {
+  display: block;
+  color: #858585;
+  text-align: center;
+  width: 100%;
+}
+.like button:hover {
+  background-color: #d5d5d5;
+}
+.like button:hover span {
+  color: #666;
+}
+
+.quote-body {
+  overflow: hidden;
+  box-sizing: border-box;
+  padding-left: 40px;
+}
+.quote-body .left {
+  float: left;
+  width: 40px;
+  position: relative;
+  margin-left: -100%;
+  left: -40px;
+}
+.quote-body .right {
+  box-sizing: border-box;
+  float: left;
+  width: 100%;
+  padding-left: 10px;
+}
+.quote-body .right p {
+  color: #757575;
+  line-height: 1.6;
+}
+.quote-body .right .row {
+  width: 100%;
+  text-align: right;
+  margin-top: 20px;
+}
+.quote-body .right span {
+  color: #bdbdbd;
+  display: inline-block;
+}
+
+.quote {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.quote .divider {
+  width: 80px;
+  height: 2px;
+  background-color: #d9d9d9;
+  margin: 10px auto;
+}
+
+.dropdown {
+  width: 100%;
+  left: 0;
+  top: 35px;
+  display: none;
+  position: absolute;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+.dropdown ul li {
+  box-sizing: border-box;
+  padding: 6px 12px;
+}
+.dropdown ul li a {
+  display: block;
+  width: 100%;
+}
+.dropdown ul li:hover {
+  background-color: #616161;
+}
+.dropdown ul li:hover h3 {
+  color: #fff;
+}
+.dropdown ul li:hover .row {
+  color: rgba(255, 255, 255, 0.7);
+}
+.dropdown ul li h3 {
+  font-size: 14px;
+  color: #626262;
+}
+.dropdown ul li .row {
+  color: #757575;
+  font-size: 12px;
+}
+.dropdown ul li .row span {
+  margin-right: 15px;
+}
+
+.dropdown.active {
+  display: block;
+}
+
+/*# sourceMappingURL=app.css.map */

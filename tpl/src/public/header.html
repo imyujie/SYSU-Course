@@ -1,0 +1,19 @@
+<header>
+    <div class="wrapper">
+        <div class="logo">
+            <h1>{{ title }}</h1>
+            <h2>{{ subtitle }}</h2>
+        </div>
+        <div class="controller">
+            <form action="" class="search-form">
+                <div class="fake-form"></div>
+                <input type="text" placeholder="{{ placeholder }}">
+                <button type="submit" class="search-btn">
+                    <i class="icon-search"></i>
+                </button>
+                {{include './dropdown'}}
+            </form>
+            <i class="icon-plus"></i>
+        </div>
+    </div>
+</header>

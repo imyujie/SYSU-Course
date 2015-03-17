@@ -40,7 +40,10 @@ urls = [
     (r'/remove/course', RemoveCourseHandler),
     (r'/remove/comment', RemoveCommentHandler),
     (r'//', DetailHandler),
-    (r"/export", ExportHandler)
-    (r'/search', SearchHandler)
+    (r"/export", ExportHandler),
+    (r'/search', SearchHandler),
+    (r'/admin', AdminHandler),
+    (r'/admin/courses', ListAllCourseHandler),
+
     (r'.*', HTTP404Error)
 ]

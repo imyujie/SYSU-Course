@@ -1,19 +1,15 @@
-##文件结构
-
-    -client
-        -sass Sass
-        -js JS
-    -tpl
-        -src
-            -*.html 模板
-    -lib js库
-    -dist
-        -js 输出的js
-        -css 输出的css
-
-
-##依赖
-* Node.js 环境
-* Browserify.js
-* TmodJS
-* Sass
+##SYSU-Course
+###public
+前端资源，SASS、JS 以及编译过的 css、js，字体等
+###routes
+路由，各种 Handler
+###templates
+模板，其中里面的 modules 为 UI 模块
+###models
+数据库操作，包括 Course 类和 Comment 类
+###urls.py
+url 对应 Hanlder
+###server.py
+启动本地服务器
+###app.py
+Tornado 相关配置

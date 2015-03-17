@@ -1,3 +1,5 @@
-node_modules
-.sass-cache
-npm-debug.log
+front
+public/node_modules
+public/.sass-cache
+public/npm-debug.log
+whole

@@ -1,10 +1,10 @@
 <div class="sticky">
     <ul>
-        {{ each catagories }}
+        {% for item in catagories %}
             <li>
                 <span>{{ $value.name }}</span>
                 <span class="tag">{{ $value.count}}</span>
             </li>
-        {{ /each }}
+        {% end %}
     </ul>
 </div>

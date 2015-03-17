@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    outline: none;
 }
 
 input, textarea {
@@ -30,4 +31,9 @@ ul li {
 a {
     color: #000;
     text-decoration: none;
+}
+
+select {
+    font-family: sans-serif;
+    cursor: pointer;
 }

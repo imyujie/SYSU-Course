@@ -1,0 +1,24 @@
+<div class="table-header">
+    <i class="icon-graduation-cap"></i>
+    <h2>{{ name }}</h2>
+</div>
+<div class="table">
+    <div class="table-row">
+        <span class="value">{{ teacher }}</span>
+        <span class="label">教师</span>
+    </div>
+    <div class="table-row">
+        <span class="value">{{ catagory }}</span>
+        <span class="label">类别</span>
+    </div>
+    <div class="table-row">
+        <div class="value">{{include './rating'}}</div>
+        <span class="label">评分</span>
+    </div>
+
+    <div class="cross-row">
+        {{ each quotelist }}
+            {{include './quote' $value}}
+        {{ /each }}
+    </div>
+</div>

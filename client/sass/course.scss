@@ -1,3 +1,4 @@
+@charset "utf-8";
 @import "reset";
 $headerHeight: 60px;
 $themeColor: #424242;
@@ -147,10 +148,10 @@ header {
             list-style: none;
             overflow: hidden;
             margin-bottom: 15px;
+            @include transition(all .3s);
         }
         li.fade {
             opacity: .5;
-            @include transition(all .3s);
         }
         li span {
             float: left;
@@ -163,6 +164,8 @@ header {
             padding: 1px 10px;
             background-color: #e0e0e0;
             color: #949494;
+            font-size: 13px;
+            font-weight: bold;
         }
     }
 }
@@ -307,6 +310,93 @@ $sideWidth: 40px;
     margin: 10px auto;
 }
 
+$labelWidth: 100px;
+.form-wrapper {
+    .form-header {
+        h2 {
+            color: #454b56;
+        }
+        width: 100%;
+        text-align: left;
+    }
+    .form-body {
+        @include border-box;
+        @include radius-box;
+        margin-top: 40px;
+        padding: 16px 28px;
+        padding-bottom: 30px;
+        .row {
+            overflow: hidden;
+            @include border-box;
+            padding-left: $labelWidth;
+            border-bottom: 1px dashed #efefef;
+            min-height: 50px;
+        }
+        .label {
+            display: block;
+            float: left;
+            color: #555;
+            opacity: .5;
+            width: $labelWidth;
+            position: relative;
+            margin-left: -100%;
+            left: -$labelWidth;
+            height: 50px;
+            line-height: 50px;
+            @include transition(all .3s);
+        }
+        .label.active {
+            opacity: 1;
+        }
+        input,.select,textarea {
+            @include border-box;
+            font-size: 16px;
+            color: #444a53;
+            float: left;
+            width: 100%;
+        }
+        input {
+            height: 50px;
+        }
+        textarea {
+            height: 30px;
+            margin: 10px 0;
+            resize: none;
+            @include transition(all .3s);
+        }
+        .row-select {
+            .label {
+                margin-left: -80px;
+            }
+            .select {
+                cursor: pointer;
+                position: relative;
+                width: 80px;
+            }
+            .select:after {
+                content: "\e803";
+                font-family: fontello;
+                position: absolute;
+                top: 50%;
+                margin-top: -11px;
+                right: 0;
+                color: #ddd;
+            }
+            select {
+                position: relative;
+                z-index: 10;
+                width: 100%;
+                height: 30px;
+                margin: 10px 0;
+                border: none;
+                font-size: 16px;
+                color: #444a53;
+                background-color: transparent;
+                -webkit-appearance: none;
+            }
+        }
+    }
+}
 .dropdown {
     width: 100%;
     left: 0;
@@ -349,4 +439,154 @@ $sideWidth: 40px;
 
 .dropdown.active {
     display: block;
+}
+
+.table-header {
+    i {
+        font-size: 40px;
+        color: #bdbdbd;
+    }
+    h2 {
+        display: inline-block;
+        color: #454b56;
+    }
+}
+$tableLabelWidth: 80px;
+.table {
+    @include radius-box;
+    margin-top: 40px;
+    .table-row {
+        overflow: hidden;
+        @include border-box;
+        padding-left: $tableLabelWidth;
+        border-bottom: 1px dashed #efefef;
+        min-height: 50px;
+    }
+    .label {
+        display: block;
+        @include border-box;
+        float: left;
+        color: #383e49;
+        opacity: .5;
+        width: $tableLabelWidth;
+        position: relative;
+        margin-left: -100%;
+        padding-left: 20px;
+        left: -$tableLabelWidth;
+        height: 50px;
+        line-height: 50px;
+        @include transition(all .3s);
+    }
+    .value {
+        @include border-box;
+        color: #a6a8ad;
+        display: block;
+        height: 50px;
+        line-height: 50px;
+        font-size: 16px;
+        float: left;
+        width: 100%;
+        padding-left: 20px;
+        border-left: 1px dashed #efefef;
+        .rating {
+            margin-left: -4px;
+        }
+    }
+    .cross-row {
+        @include border-box;
+        position: relative;
+        padding: 50px 10px;
+        .quote:last-child .divider {
+            display: none;
+        }
+    }
+    .cross-row:before {
+        content: '\201c';
+        font-size: 100px;
+        position: absolute;
+        font-family: "Times New Roman";
+        left: 5px;
+        top: -10px;
+        color: #bdbdbd
+    }
+}
+
+
+.search {
+    margin-top: 20px;
+    position: relative;
+    .dropdown {
+        @include border-box;
+        top: 56px;
+        box-shadow: none;
+        border: 1px solid #efefef;
+        ul li {
+            padding: 10px 24px;
+        }
+        ul li h3 {
+            font-size: 18px;
+        }
+        .row {
+            font-size: 14px;
+        }
+    }
+    form {
+        @include border-box;
+        @include radius-box;
+        overflow: hidden;
+        padding-right: 50px;
+        input, button {
+            height: 50px;
+        }
+        input {
+            @include border-box;
+            float: left;
+            width: 100%;
+            padding-left: 20px;
+        }
+        button {
+            position: relative;
+            margin-right: -100%;
+            width: 50px;
+        }
+        button i {
+            font-size: 20px;
+            color: #e6e6e6;
+        }
+    }
+}
+
+.paginator {
+    ul {
+        text-align: center;
+    }
+    ul li {
+        margin-left: 24px;
+        display: inline-block;
+        opacity: .3;
+        font-size: 16px;
+        font-weight: bold;
+        span {
+            color: #757575;
+        }
+    }
+    ul li:first-child {
+        margin-left: 0;
+    }
+    .prev, .next {
+        display: inline-block;
+        @include border-box;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #757575;
+        text-align: center;
+        padding: 10px 0;
+        font-weight: normal;
+        font-size: 14px;
+        color: #fff;
+    }
+    ul li.active {
+        opacity: 1;
+    }
 }

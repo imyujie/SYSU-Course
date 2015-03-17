@@ -39,3 +39,15 @@ class SignoutHandler(BaseHandler):
     def get(self):
         self.clear_cookie("user")
         self.redirect("/signin")
+
+class ListAllCoursesHandler(BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        courses = Course.get_all_courses()
+        self.render('listall.html', courses=courses)
+
+class AdminHandler(BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        self.render('admin.html')
+

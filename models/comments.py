@@ -35,7 +35,7 @@ class Comment(object):
     @property
     def status(self):
         return self.status
-
+        
     @staticmethod
     def change_status(cmtid, status):
         db["comment"].find_and_modify({"_id": cmtid}, update={"$set": {"status": status}})

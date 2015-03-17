@@ -71,6 +71,14 @@ class Course(object):
     def get_comments(self):
         alist = []
         for i in self.cmtids:
+            item = Comment.get_comment_by_cmtid(i)
+            if item.status == 1:
+                alist.append(item)
+        return alist
+
+    def get_all_comments(self):
+        alist = []
+        for i in self.cmtids:
             alist.append(Comment.get_comment_by_cmtid(i))
         return alist
 
@@ -193,6 +201,7 @@ class Course(object):
         items_list = []
         for item in items:
             if item.name.find(keyword) > -1 or item.teacher.find(keyword) > -1:
-                items_list.append(Course(item["_id"], item["name"], item["teacher"], item["category"], item["cmtids"], item["count"], item["sums
+                if item["status"] == 1:
+                    items_list.append(Course(item["_id"], item["name"], item["teacher"], item["category"], item["cmtids"], item["count"], item["sums
 
         return items_list

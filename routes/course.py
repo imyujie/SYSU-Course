@@ -12,7 +12,7 @@ from models.courses import Course
 from base import BaseHandler
 
 class SearchHandler(BaseHandler):
-    def get(self):
+    def get(self, category, teacher, name):
         pass
 
     def post(self):
@@ -39,6 +39,13 @@ class DeleteCourseHandler(BaseHandler):
     def post(self):
         pass
 
+class UndoDeleteCourseHandler(BaseHandler):
+    def get(self):
+        pass
+
+    def post(self):
+        pass
+
 class AddCourseHandler(BaseHandler):
     def get(self):
         pass
@@ -58,5 +65,6 @@ class ExportHanlder(BaseHandler):
             for cmt in item.get_all_comments():
                 item_dict["comments"].append({'cmtid': cmt.cmtid, 'content': cmt.comment, 'author': cmt.author, 'like': cmt.like, 'unlike': cmt.unlike})
             adict['all'].append(item_dict)
+        
         json_str = json.dumps(adict, ensure_ascii=False)
         self.render('export.html', data=json_str, page_title="export")

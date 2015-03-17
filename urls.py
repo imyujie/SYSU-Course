@@ -40,6 +40,8 @@ urls = [
     (r'/add/comment', AddCommentHandler),
     (r'/delete/comment', DeleteCommentHandler),
     (r'/delete/course', DeleteCourseHandler),
+    (r'/undo/comment', UndoDeleteCommentHandler),
+    (r'/undo/course', UndoDeleteCourseHandler),
     (r'/remove/course', RemoveCourseHandler),
     (r'/remove/comment', RemoveCommentHandler),
     (r"/export", ExportHandler),

@@ -1,6 +1,6 @@
 <div class="dropdown">
     <ul>
-        {{each res}}
+        {% for item in res %}
         <li>
             <a href="#">
                 <h3>{{ $value.name }}</h3>
@@ -10,6 +10,6 @@
                 </div>
             </a>
         </li>
-        {{/each}}
+        {% end %}
     </ul>
 </div>

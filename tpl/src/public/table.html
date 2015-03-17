@@ -12,13 +12,13 @@
         <span class="label">类别</span>
     </div>
     <div class="table-row">
-        <div class="value">{{include './rating'}}</div>
+        <div class="value">{% module Rating(rating, $value) %}</div>
         <span class="label">评分</span>
     </div>
 
     <div class="cross-row">
-        {{ each quotelist }}
-            {{include './quote' $value}}
-        {{ /each }}
+        {% for item in quotelist %}
+            {% module Quote(like) %}
+        {% end %}
     </div>
 </div>

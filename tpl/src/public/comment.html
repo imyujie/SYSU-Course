@@ -5,7 +5,7 @@
         </div>
         <div class="row">
             <input type="text" placeholder="你的名字">
-            {{include './rating'}}
+            {% module Rating(rating, $value) %}
         </div>
 </div>
 <div class="btn-group">

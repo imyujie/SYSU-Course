@@ -2,7 +2,7 @@
     <a href="#">
         <div class="row">
             <h2>{{ name }}</h2>
-            {{include './rating'}}
+            {% module Rating(rating, $value) %}
         </div>
         <div class="row">
             <div class="subtitle">

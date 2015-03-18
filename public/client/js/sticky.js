@@ -1,9 +1,10 @@
 var $ = require('jquery');
 
-module.exports = function($ele, callback) {
+module.exports = function($ele, callback, sd) {
     this.sticky = $ele;
     this.callback = callback;
     this.items = Array.prototype.slice.call($ele.find('li'), 0);
+    this.sd = sd;
 };
 
 module.exports.prototype = {
@@ -17,7 +18,9 @@ module.exports.prototype = {
         var self = this;
         return function() {
             $(this).toggleClass('fade');
-            self.callback(self.getValue());
+            var idx = +$(this).attr('data-catecode');
+            self.sd[idx].fire('change');
+            //self.callback(self.getValue());
         };
     },
     getValue: function() {

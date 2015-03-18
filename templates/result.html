@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
 {% block body%}
-	<div>
-		<h2>" {{ keyword }} "的搜索结果</h2>
+	<div style="margin-bottom: 40px;">
+		<h2>"{{ keyword }}" 的搜索结果</h2>
 	</div>
-	<div>
-		<div>
-			{% module Sticky(categories) %}
-		</div>
-		<div>
+	<div class="result-body">
+		<div class="right">
 			{% for item in results %}
-				{% module Card(item, clickable) %}
+				{% module Card(item, False) %}
 			{% end %}
+		</div>
+		<div class="left">
+			{% module Sticky(categories) %}
 		</div>
 	</div>
 {% end %}

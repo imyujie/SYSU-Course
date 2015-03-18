@@ -18,11 +18,15 @@ $('.js-index-search-form, .js-header-search-form').on('submit', function(event) 
 $('.fake-form').on('click', function() {
     $(this).parent().addClass('active');
     $('.search-form input').focus();
+    console.log('Ed');
 });
 
-$('.search-form input').on('blur', function() {
-    $(this).nextAll('.dropdown').removeClass('active');
-    $(this).parent().removeClass('active');
+$(document).mouseup(function(e){
+  var _con = $('header form');   // 设置目标区域
+  if(!_con.is(e.target) && _con.has(e.target).length === 0) {
+    $('.search-form input').nextAll('.dropdown').removeClass('active');
+    $('.search-form input').parent().removeClass('active');
+  }
 });
 
 var $allRating = $('.rating');
@@ -36,9 +40,6 @@ for (var i = 0, len = $allRating.length; i < len; i++) {
         rt.init().set(rate);
     }
 }
-
-var st = new Sticky($('.sticky'), function(val){});
-st.init();
 
 $('.js-add-course-form').on('submit', function(event) {
     event.preventDefault();
@@ -162,3 +163,34 @@ var h = new SearchTips({
 });
 
 h.init();
+
+
+var Sender = function(options) {
+    this.options = options;
+    this.func = {};
+};
+
+Sender.prototype = {
+    fire: function(type) {
+        if (typeof(this.func[type]) === 'function')
+            this.func[type](this.options.items);
+    },
+    on: function(type, f) {
+        this.func[type] = f;
+    }
+};
+
+
+var sd = [];
+for (var i = 1; i < 6; i++) {
+    sd[i] = new Sender({
+        items: $('[data-category="'+ i +'"]')
+    });
+    sd[i].on('change', function(items) {
+        items.toggleClass('hidden');
+    });
+};
+
+
+var st = new Sticky($('.sticky'), function(val){}, sd);
+st.init();

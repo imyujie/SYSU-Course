@@ -21,7 +21,7 @@ class SearchHandler(BaseHandler):
             categories = []
             for i in xrange(5):
                 if cates[i] != 0:
-                    categories.append({"name": cc[i], "count": cates[i]})
+                    categories.append({"catecode": i+1, "name": cc[i], "count": cates[i]})
             self.render('result.html',
                 clickable="True",
                 keyword=keyword,

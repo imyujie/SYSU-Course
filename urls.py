@@ -49,7 +49,7 @@ urls = [
     (r'/remove/comment', RemoveCommentHandler),
     (r"/export", ExportHandler),
     (r'/search', SearchTipsHandler),
-    (r'/search(.*)', SearchHandler),
+    (r'/search/(.*)', SearchHandler),
     (r'/admin', AdminHandler),
     (r'/admin/courses', ListAllCoursesHandler),
     (r'/(.*)/(.*)/(.*)', DetailHandler),

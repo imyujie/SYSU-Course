@@ -39,10 +39,14 @@ select {
   cursor: pointer;
 }
 
+body {
+  margin-top: 0;
+}
+
 .limited {
   margin: 0 auto;
   width: 700px;
-  margin-top: 90px;
+  padding-top: 90px;
 }
 
 header {
@@ -228,6 +232,10 @@ header .search-btn .icon-search {
 }
 .card .subtitle span {
   margin-right: 20px;
+}
+
+.card.hidden {
+  display: none;
 }
 
 .comment-write {
@@ -623,6 +631,28 @@ header .search-btn .icon-search {
 }
 .paginator ul li.active {
   opacity: 1;
+}
+
+.result-body {
+  overflow: hidden;
+  box-sizing: border-box;
+  padding-left: 120px;
+}
+.result-body .left {
+  box-sizing: border-box;
+  float: left;
+  color: #383e49;
+  opacity: .5;
+  width: 120px;
+  position: relative;
+  margin-left: -100%;
+  left: -120px;
+  padding-right: 16px;
+}
+.result-body .right {
+  width: 100%;
+  float: left;
+  min-height: 100px;
 }
 
 /*# sourceMappingURL=app.css.map */

@@ -19,7 +19,7 @@ $goodWidth: 700px;
 .limited {
     margin: 0 auto;
     width: 700px;
-    margin-top: 90px;
+    padding-top: 90px;
 }
 $headerPadding: 14px;
 header {
@@ -210,6 +210,9 @@ header {
     .subtitle span {
         margin-right: 20px;
     }
+}
+.card.hidden {
+    display: none;
 }
 
 $inputHeight: 30px;
@@ -597,5 +600,28 @@ $tableLabelWidth: 80px;
     }
     ul li.active {
         opacity: 1;
+    }
+}
+
+$resultSideWidth: 120px;
+.result-body {
+    overflow: hidden;
+    @include border-box;
+    padding-left: $resultSideWidth;
+    .left {
+        @include border-box;
+        float: left;
+        color: #383e49;
+        opacity: .5;
+        width: $resultSideWidth;
+        position: relative;
+        margin-left: -100%;
+        left: -$resultSideWidth;
+        padding-right: 16px;
+    }
+    .right {
+        width: 100%;
+        float: left;
+        min-height: 100px;
     }
 }

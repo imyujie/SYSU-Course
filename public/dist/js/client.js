@@ -1160,11 +1160,15 @@ $('.js-index-search-form, .js-header-search-form').on('submit', function(event) 
 $('.fake-form').on('click', function() {
     $(this).parent().addClass('active');
     $('.search-form input').focus();
+    console.log('Ed');
 });
 
-$('.search-form input').on('blur', function() {
-    $(this).nextAll('.dropdown').removeClass('active');
-    $(this).parent().removeClass('active');
+$(document).mouseup(function(e){
+  var _con = $('header form');   // 设置目标区域
+  if(!_con.is(e.target) && _con.has(e.target).length === 0) {
+    $('.search-form input').nextAll('.dropdown').removeClass('active');
+    $('.search-form input').parent().removeClass('active');
+  }
 });
 
 var $allRating = $('.rating');
@@ -1178,9 +1182,6 @@ for (var i = 0, len = $allRating.length; i < len; i++) {
         rt.init().set(rate);
     }
 }
-
-var st = new Sticky($('.sticky'), function(val){});
-st.init();
 
 $('.js-add-course-form').on('submit', function(event) {
     event.preventDefault();
@@ -1304,6 +1305,38 @@ var h = new SearchTips({
 });
 
 h.init();
+
+
+var Sender = function(options) {
+    this.options = options;
+    this.func = {};
+};
+
+Sender.prototype = {
+    fire: function(type) {
+        if (typeof(this.func[type]) === 'function')
+            this.func[type](this.options.items);
+    },
+    on: function(type, f) {
+        this.func[type] = f;
+    }
+};
+
+
+var sd = [];
+for (var i = 1; i < 6; i++) {
+    sd[i] = new Sender({
+        items: $('[data-category="'+ i +'"]')
+    });
+    sd[i].on('change', function(items) {
+        items.toggleClass('hidden');
+    });
+};
+
+
+var st = new Sticky($('.sticky'), function(val){}, sd);
+st.init();
+
 },{"./data.js":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\data.js","./rating":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\rating.js","./search_tips":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\search_tips.js","./sticky":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\sticky.js","./template.js":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\template.js","./textarea_plugin":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\textarea_plugin.js","jquery":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\node_modules\\jquery\\dist\\jquery.js"}],"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\rating.js":[function(require,module,exports){
 var $ = require('jquery');
 
@@ -1444,10 +1477,11 @@ module.exports.prototype = {
     template: function() {
         arguments = Array.prototype.slice.call(arguments, 0);
         console.log(arguments);
+        var categories = ["公选", "专选", "公必", "专必", "体育"];
         if (!arguments[0]) {
             return ''
             + '<li>'
-            + '    <a href="#">'
+            + '    <a href="/add/course">'
             + '        <h4>' + this.options.notFoundText + '</h4>'
             + '        <div class="row">'
             + '            <p>' + this.options.addText + '</p>'
@@ -1457,11 +1491,11 @@ module.exports.prototype = {
         } else {
             return ''
             + '<li>'
-            + '    <a href="#">'
-            + '        <h3>' + arguments[0].name + '</h3>'
+            + '    <a href="/'+ categories[+arguments[0].category-1] +'/'+ arguments[0].teacher +'/'+ arguments[0].name +'">'
+            + '        <h3>' + arguments[0].name  + '</h3>'
             + '        <div class="row">'
             + '            <span>' + arguments[0].teacher + '</span>'
-            + '            <span>' + arguments[0].category + '</span>'
+            + '            <span>' + categories[+arguments[0].category-1] + '</span>'
             + '        </div>'
             + '    </a>'
             + '</li>';
@@ -1471,10 +1505,11 @@ module.exports.prototype = {
 },{"./data.js":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\data.js","jquery":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\node_modules\\jquery\\dist\\jquery.js"}],"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\sticky.js":[function(require,module,exports){
 var $ = require('jquery');
 
-module.exports = function($ele, callback) {
+module.exports = function($ele, callback, sd) {
     this.sticky = $ele;
     this.callback = callback;
     this.items = Array.prototype.slice.call($ele.find('li'), 0);
+    this.sd = sd;
 };
 
 module.exports.prototype = {
@@ -1488,7 +1523,9 @@ module.exports.prototype = {
         var self = this;
         return function() {
             $(this).toggleClass('fade');
-            self.callback(self.getValue());
+            var idx = +$(this).attr('data-catecode');
+            self.sd[idx].fire('change');
+            //self.callback(self.getValue());
         };
     },
     getValue: function() {

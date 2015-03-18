@@ -1,7 +1,7 @@
 <div class="sticky">
     <ul>
         {% for item in categories %}
-            <li>
+            <li data-catecode="{{ item['catecode'] }}">
                 <span>{{ item["name"] }}</span>
                 <span class="tag">{{ item["count"] }}</span>
             </li>

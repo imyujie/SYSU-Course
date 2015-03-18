@@ -85,7 +85,7 @@ class Course(object):
     def get_rating(self):
         if self.count == 0:
             return 0
-        return self.sums/self.count
+        return int(self.sums/self.count)
 
     @staticmethod
     def insert_course(info):

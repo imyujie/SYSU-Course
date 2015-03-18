@@ -77,10 +77,11 @@ module.exports.prototype = {
     template: function() {
         arguments = Array.prototype.slice.call(arguments, 0);
         console.log(arguments);
+        var categories = ["公选", "专选", "公必", "专必", "体育"];
         if (!arguments[0]) {
             return ''
             + '<li>'
-            + '    <a href="#">'
+            + '    <a href="/add/course">'
             + '        <h4>' + this.options.notFoundText + '</h4>'
             + '        <div class="row">'
             + '            <p>' + this.options.addText + '</p>'
@@ -90,11 +91,11 @@ module.exports.prototype = {
         } else {
             return ''
             + '<li>'
-            + '    <a href="#">'
-            + '        <h3>' + arguments[0].name + '</h3>'
+            + '    <a href="/'+ categories[+arguments[0].category-1] +'/'+ arguments[0].teacher +'/'+ arguments[0].name +'">'
+            + '        <h3>' + arguments[0].name  + '</h3>'
             + '        <div class="row">'
             + '            <span>' + arguments[0].teacher + '</span>'
-            + '            <span>' + arguments[0].category + '</span>'
+            + '            <span>' + categories[+arguments[0].category-1] + '</span>'
             + '        </div>'
             + '    </a>'
             + '</li>';

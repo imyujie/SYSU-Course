@@ -1,4 +1,4 @@
-var $ = require('./jquery');
+var $ = require('jquery');
 
 $.fn.css2 = $.fn.css;
 $.fn.css = function() {

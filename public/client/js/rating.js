@@ -52,8 +52,8 @@ module.exports.prototype = {
         this.reset();
         for (var i = 0; i < rate; i++) {
             $(this.stars[i]).removeClass(this.iconStroke).addClass(this.iconFill);
-            this.stat = 1;
         }
+        this.stat = 1;
         return this;
     }
 };

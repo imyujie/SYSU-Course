@@ -8,16 +8,16 @@
         <span class="label">教师</span>
     </div>
     <div class="table-row">
-        <span class="value">{{ course.catagory }}</span>
+        <span class="value">{{ course.category }}</span>
         <span class="label">类别</span>
     </div>
     <div class="table-row">
-        <div class="value">{% module Rating(item, clickable) %}</div>
+        <div class="value">{% module Rating(course, clickable) %}</div>
         <span class="label">评分</span>
     </div>
 
     <div class="cross-row">
-        {% for i in item.get_comments() %}
+        {% for i in course.get_comments() %}
             {% module Quote(i) %}
         {% end %}
     </div>

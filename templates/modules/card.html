@@ -1,16 +1,16 @@
 <div class="card">
-    <a href="#">
+    <a href="/{{ item.get_category_name() }}/{{ item.teacher }}/{{ item.name }}">
         <div class="row">
             <h2>{{ item.name }}</h2>
-            {% module Rating(item.rating, clickable) %}
+            {% module Rating(item, clickable) %}
         </div>
         <div class="row">
             <div class="subtitle">
                 <span> {{ item.teacher }} </span>
-                <span> {{ item.catagory }} </span>
+                <span> {{ item.get_category_name() }} </span>
             </div>
             <span>
-                {{ item.comments }} 条评论
+                {{ len(item.get_comments()) }} 条评论
             </span>
         </div>
     </a>

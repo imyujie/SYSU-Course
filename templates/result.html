@@ -6,11 +6,11 @@
 	</div>
 	<div>
 		<div>
-			{% modules Sticky(categories) %}
+			{% module Sticky(categories) %}
 		</div>
 		<div>
 			{% for item in results %}
-				{% modules Card(item, clickable) %}
+				{% module Card(item, clickable) %}
 			{% end %}
 		</div>
 	</div>

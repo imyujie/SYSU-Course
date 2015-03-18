@@ -10,13 +10,15 @@ from routes.index import HTTP404Error
 from routes.index import SigninHandler
 from routes.index import SignoutHandler
 from routes.index import AdminHandler
-from routes.index import ListAllCourseHandler
+from routes.index import ListAllCoursesHandler
 
 from routes.course import AddCourseHandler
 from routes.course import DeleteCourseHandler
+from routes.course import UndoDeleteCourseHandler
 from routes.course import RemoveCourseHandler
 from routes.course import DetailHandler
 from routes.course import SearchHandler
+from routes.course import SearchTipsHandler
 from routes.course import ExportHandler
 
 from routes.comment import AddLikeHandler
@@ -26,6 +28,7 @@ from routes.comment import CutUnlikeHandler
 from routes.comment import AddCommentHandler
 from routes.comment import DeleteCommentHandler
 from routes.comment import RemoveCommentHandler
+from routes.comment import UndoDeleteCommentHandler
 
 
 urls = [
@@ -45,9 +48,10 @@ urls = [
     (r'/remove/course', RemoveCourseHandler),
     (r'/remove/comment', RemoveCommentHandler),
     (r"/export", ExportHandler),
-    (r'/search', SearchHandler),
+    (r'/search', SearchTipsHandler),
+    (r'/search(.*)', SearchHandler),
     (r'/admin', AdminHandler),
-    (r'/admin/courses', ListAllCourseHandler),
+    (r'/admin/courses', ListAllCoursesHandler),
     (r'/(.*)/(.*)/(.*)', DetailHandler),
 
     (r'.*', HTTP404Error)

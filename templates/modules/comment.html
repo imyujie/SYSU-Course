@@ -1,11 +1,12 @@
-<form action="">
+<form class="js-detail-comment-form" action="" data-course="{{ course.cid }}">
+{% raw xsrf_form_html() %}
 <div class="comment-write">
         <div class="row">
-            <textarea name="" id="" cols="30" rows="10" placeholder="说点什么"></textarea>
+            <textarea name="content" id="" cols="30" rows="10" placeholder="说点什么"></textarea>
         </div>
         <div class="row">
-            <input type="text" placeholder="你的名字">
-            {% module Rating(rating, clickable) %}
+            <input type="text" placeholder="你的名字" name="author">
+            {% module Rating(course, clickable) %}
         </div>
 </div>
 <div class="btn-group">

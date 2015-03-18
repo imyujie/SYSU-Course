@@ -1,4 +1,5 @@
 # coding=utf-8
+#-*-coding:utf-8-*- 
 
 import os.path
 import tornado.web
@@ -12,18 +13,23 @@ from models.courses import Course
 from base import BaseHandler
 
 class SearchHandler(BaseHandler):
-    def get(self):
-        keyword = self.get_argument('keyword', None)
+    def get(self, keyword):
         if keyword:
             results = Course.get_courses_by_keyword(keyword)
-            categories = sum_of_categories(results)
+            cates = sum_of_categories(results)
+            cc = ["公选", "专选", "公必", "专必", "体育"]
+            categories = []
+            for i in xrange(5):
+                if cates[i] != 0:
+                    categories.append({"name": cc[i], "count": cates[i]})
             self.render('result.html',
+                clickable="True",
                 keyword=keyword,
                 categories=categories,
                 results=results
                 )
 
-
+class SearchTipsHandler(BaseHandler):
     def post(self):
         keyword = self.get_argument('keyword', None)
         if keyword:
@@ -37,19 +43,32 @@ class SearchHandler(BaseHandler):
                     })
             json_str = json.dumps(res, ensure_ascii=False)
             self.write(json_str)
+        else:
+            self.write("0");
 
 def sum_of_categories(courses):
     categories = [0, 0, 0, 0, 0]
     for i in courses:
-        categories[i.category-1]++
+        categories[i.category-1] = categories[i.category-1]+1
     return categories
 
 class DetailHandler(BaseHandler):
     def get(self, category, teacher, name):
+        if category == "体育":
+            category = 5
+        if category == "公选":
+            category = 1
+        if category  == "专选":
+            category = 2
+        if category  == "公必":
+            category = 3
+        if category  == "专必":
+            category = 4
         res = Course.get_course_by_cate_teac_name(category, teacher, name)
         if res:
             self.render('detail.html',
-                course=res
+                course=res,
+                clickable="True"
                 )
         else:
             self.render('404.html')
@@ -71,7 +90,7 @@ class DeleteCourseHandler(BaseHandler):
     def get(self):
         cid = self.get_argument('cid', None)
         if cid:
-            Course.change_status(cid, 0)
+            Course.change_status(int(cid), 0)
 
     def post(self):
         pass
@@ -81,7 +100,7 @@ class UndoDeleteCourseHandler(BaseHandler):
     def get(self):
         cid = self.get_argument('cid', None)
         if cid:
-            Course.change_status(cid, 1)
+            Course.change_status(int(cid), 1)
 
     def post(self):
         pass
@@ -99,33 +118,24 @@ class AddCourseHandler(BaseHandler):
         comment = self.get_argument('comment', None)
         author = self.get_argument('author', None)
         step = self.get_argument('step', None)
+        step = int(step)
+        print teacher
         if title and teacher and category and comment and author:
             res = Course.get_course_by_name(title)
             if res and step == 1:
                 result = {"all": []}
                 for i in res:
-                    result["all"].append({
-                        "name": i.name,
-                        "teacher": i.teacher,
-                        "category": i.category
-                        })
+                    result["all"].append({"name": i.name, "teacher": i.teacher, "category": i.category })
                 json_str = json.dumps(result, ensure_ascii=False)
                 self.write(json_str)
             else:
-                cid = Course.insert_course({
-                    "name": title,
-                    "teacher": teacher,
-                    "category": category
-                    })
+                cid = Course.insert_course({"name": title, "teacher": teacher, "category": int(category) })
                 Course.add_comment(cid, comment, author)
                 self.write("1")
         else:
             self.write("0")
 
-
-
-
-class ExportHanlder(BaseHandler):
+class ExportHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
         courses = Courses.get_all_courses()

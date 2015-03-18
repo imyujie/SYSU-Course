@@ -2,12 +2,15 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>{{ page_title }}</title>
+	<title>LoveSYSU</title>
+    <link rel="stylesheet" href="{{ static_url("dist/css/fontello.css")}}">
+    <link rel="stylesheet" href="{{ static_url("dist/css/app.css")}}">
 </head>
 <body>
-	{% module Header(title, subtitle, placeholder) %}
-	<div class="limited">
-		{% block body %}{% end %}
-	</div>
+    {% module Header("LOVESYSU", "Course", "搜索老师、课程名字") %}
+    <div class="limited">
+        {% block body %}{% end %}
+    </div>
+    <script src="{{ static_url("dist/js/app.min.js")}}"></script>
 </body>
 </html>

@@ -8,6 +8,11 @@ module.exports = function(options) {
     this.options = options;
 };
 
+function getCookie(name) {
+    var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+    return r ? r[1] : undefined;
+}
+
 module.exports.prototype = {
     constructor: module.exports,
     init: function() {
@@ -16,28 +21,58 @@ module.exports.prototype = {
     },
     handler: function() {
         var self = this;
-        return function() {
+        return function(event) {
             if (!$(this).val()) {
                 self.options.dropdown.removeClass('active');
             } else {
                 var keyword = $(this).val();
-                self.handleData(keyword);
+                self.handleData(keyword, event);
             }
         }
     },
-    handleData: function(keyword) {
+    handleData: function(keyword, event) {
+        var self = this;
         var res = '';
-        for (var i = 0, len = ALLDATA.length; i < len; i++) {
-            if (ALLDATA[i].teacher.indexOf(keyword) > -1 ||
-                ALLDATA[i].name.indexOf(keyword) > -1) {
-                res += this.template(ALLDATA[i]);
+        self.lastTime = event.timeStamp;
+        setTimeout(function(){ 
+            //如果时间差为0，也就是你停止输入0.5s之内都没有其它的keyup事件产生，这个时候就可以去请求服务器了
+            if(self.lastTime - event.timeStamp == 0) {
+                var args = {"keyword": keyword};
+                args._xsrf = getCookie("_xsrf");
+                $.ajax({
+                    url: self.options.url,
+                    type: 'POST',
+                    data: $.param(args),
+                })
+                .done(function(data) {
+                    console.log(data);
+                    if (data === '0') {
+                        //alert('fail');
+                    } else {
+                        var response = $.parseJSON(data);
+                        response = response["all"];
+                        if (response.length === '0') {
+                            res = self.template();
+                        } else {
+                            for (var course in response) {
+                                res += self.template(response[course]);
+                            }
+                        }
+                        self.ul.empty().append(res);
+                        self.options.dropdown.addClass('active');
+                    }
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });  
+                var $val = $("#search").val();
+                $("#tip").html($val);                   
             }
-        }
-        if (res.length === 0) {
-            res = this.template();
-        }
-        this.ul.empty().append(res);
-        this.options.dropdown.addClass('active');
+        }, 500);
+        
     },
     template: function() {
         arguments = Array.prototype.slice.call(arguments, 0);

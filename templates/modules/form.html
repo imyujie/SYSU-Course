@@ -3,9 +3,10 @@
         <h2>{{head}}</h2>
     </div>
     <div class="form-body">
-        <form action="">
+        <form class="js-add-course-form" action="">
+            {% raw xsrf_form_html() %}
             <div class="row">
-                <input type="text" name="coursename" id="coursename">
+                <input type="text" name="title" id="title">
                 <span class="label">课程名称</span>
             </div>
             <div class="row">
@@ -14,12 +15,12 @@
             </div>
             <div class="row row-select">
                 <div class="select">
-                    <select name="catagory" id="catagory">
-                        <option value="0">公选</option>
-                        <option value="1">专选</option>
-                        <option value="2">公必</option>
-                        <option value="3">专必</option>
-                        <option value="4">体育</option>
+                    <select name="category" id="category">
+                        <option value="1">公选</option>
+                        <option value="2">专选</option>
+                        <option value="3">公必</option>
+                        <option value="4">专必</option>
+                        <option value="5">体育</option>
                     </select>
                 </div>
                 <span class="label">类别</span>
@@ -29,8 +30,12 @@
                 <span class="label">评论</span>
             </div>
             <div class="row">
-                <input type="text" name="username" id="username">
+                <input type="text" name="author" id="author">
                 <span class="label">你的名字</span>
+            </div>
+            <div class="btn-group">
+                <button type="reset">取消</button>
+                <button type="submit">提交</button>
             </div>
         </form>
     </div>

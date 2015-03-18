@@ -1,7 +1,8 @@
 <div class="search">
-    <form action="">
-        <input type="text">
-        <button><i class="icon-search"></i></button>
+    <form action="/search" class="js-index-search-form">
+        {% raw xsrf_form_html() %}
+        <input type="text" name="keyword">
+        <button type="submit"><i class="icon-search"></i></button>
     </form>
     {% module Dropdown() %}
 </div>

@@ -2,7 +2,7 @@
 #-*-coding:utf-8-*- 
 
 from db import db
-from Comment import Comment
+from comments import Comment
 
 class Course(object):
     """ Course Infomations
@@ -34,7 +34,7 @@ class Course(object):
 
     @property
     def cid(self):
-        return self.__cids
+        return self.__cid
 
     @property
     def name(self):
@@ -83,6 +83,8 @@ class Course(object):
         return alist
 
     def get_rating(self):
+        if self.count == 0:
+            return 0
         return self.sums/self.count
 
     @staticmethod
@@ -92,25 +94,27 @@ class Course(object):
             count: The number of people given a rate.
             sum: The total number of rate.
         """
+        cid = Course.get_next_sequence_value()
         db["course"].insert({
-            "_id": Course.get_next_sequence_value(),
-            "teacher": info.teacher,
-            "name": info.name,
-            "category": info.category,
+            "_id": cid,
+            "teacher": info["teacher"],
+            "name": info["name"],
+            "category": info["category"],
             "status": 1,
             "cmtids": [],
             "count": 0,
             "sum": 0
         })
+        return cid
 
     @staticmethod
     def update_course(info):
         db["course"].find_and_modify(
             {"_id": info.cid},
             update={"$set": {
-                "teacher": info.teacher,
-                "name": info.name,
-                "category": info.category
+                "teacher": info["teacher"],
+                "name": info["name"],
+                "category": info["category"],
             }}
         )
 
@@ -145,7 +149,7 @@ class Course(object):
             update={
                 "$inc":{
                     "count": 1,
-                    "sums": rating
+                    "sum": rating
                 }
             }
         )
@@ -161,14 +165,14 @@ class Course(object):
     @staticmethod
     def get_course_by_cid(cid):
         item = db["course"].find_one({"_id", cid})
-        return Course(item["_id"], item["name"], item["teacher"], item["category"], item["cmtids"], item["status"], item["count"], item["sums"])
+        return Course(item["_id"], item["name"], item["teacher"], item["category"], item["cmtids"], item["status"], item["count"], item["sum"])
 
     @staticmethod
     def get_all_courses():
         items = db["course"].find()
         items_list = []
         for item in items:
-            items_list.append(Course(item["_id"], item["name"], item["teacher"], item["category"], item["cmtids"], item["count"], item["sums"]))
+            items_list.append(Course(item["_id"], item["name"], item["teacher"], item["category"], item["cmtids"], item["status"], item["count"], item["sum"]))
         return items_list
 
     @staticmethod
@@ -178,7 +182,10 @@ class Course(object):
             "teacher": teac,
             "name": name
         })
-        return  Course(item["_id"], item["name"], item["teacher"], item["category"], item["cmtids"], item["status"], item["count"], item["sums"])
+        if item:
+            return Course(item["_id"], item["name"], item["teacher"], item["category"], item["cmtids"], item["status"], item["count"], item["sum"])
+        else:
+            return False
 
     @staticmethod
     def get_course_by_name(name):
@@ -186,7 +193,7 @@ class Course(object):
         alist = []
         if item:
             for it in item:
-                alist.append(Course(item["_id"], item["name"], item["teacher"], item["category"], item["cmtids"], item["count"], item["sums"]))
+                alist.append(Course(item["_id"], item["name"], item["teacher"], item["category"], item["cmtids"], item["status"], item["count"], item["sum"]))
             return alist
         return False
 
@@ -200,8 +207,8 @@ class Course(object):
         items = db["course"].find()
         items_list = []
         for item in items:
-            if item.name.find(keyword) > -1 or item.teacher.find(keyword) > -1:
+            if item["name"].find(keyword) > -1 or item["teacher"].find(keyword) > -1:
                 if item["status"] == 1:
-                    items_list.append(Course(item["_id"], item["name"], item["teacher"], item["category"], item["cmtids"], item["count"], item["sums
+                    items_list.append(Course(item["_id"], item["name"], item["teacher"], item["category"], item["cmtids"], item["status"], item["count"], item["sum"]))
 
         return items_list

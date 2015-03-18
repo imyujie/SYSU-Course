@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
 {% block body %}
-	{% modlue Table(course) %}
-	{% module Comment(rating, clickable) %}
+	{% module Table(False, course) %}
+	{% module Comment(clickable, course) %}
 {% end %}

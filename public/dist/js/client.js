@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"F:\\webpage\\courses\\client\\js\\data.js":[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\data.js":[function(require,module,exports){
 module.exports = {
     "all": [{
         "category": "公选",
@@ -1139,66 +1139,23 @@ module.exports = {
         "cid": 104
     }]
 };
-},{}],"F:\\webpage\\courses\\client\\js\\main.js":[function(require,module,exports){
+},{}],"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\main.js":[function(require,module,exports){
 var tpl = require('./template.js');
 var $ = require('jquery');
-
 var dd = require('./data.js');
+var Rating = require('./rating');
+var SearchTips = require('./search_tips');
+var Sticky = require('./sticky');
+var handlerTextarea = require('./textarea_plugin');
 
 var ALLDATA = dd['all'];
 
-$.fn.css2 = $.fn.css;
-$.fn.css = function() {
-    if (arguments.length) return $.fn.css2.apply(this, arguments);
-    var attr = ['font-family','font-size','font-weight','font-style','color',
-        'text-transform','text-decoration','letter-spacing', 'box-shadow',
-        'line-height','text-align','vertical-align','direction','background-color',
-        'background-image','background-repeat','background-position',
-        'background-attachment','opacity','width','height','top','right','bottom',
-        'left','margin-top','margin-right','margin-bottom','margin-left',
-        'padding-top','padding-right','padding-bottom','padding-left',
-        'border-top-width','border-right-width','border-bottom-width',
-        'border-left-width','border-top-color','border-right-color',
-        'border-bottom-color','border-left-color','border-top-style',
-        'border-right-style','border-bottom-style','border-left-style','position',
-        'display','visibility','z-index','overflow-x','overflow-y','white-space',
-        'clip','float','clear','cursor','list-style-image','list-style-position',
-        'list-style-type','marker-offset'];
-    var len = attr.length, obj = {};
-    for (var i = 0; i < len; i++) 
-        obj[attr[i]] = $.fn.css2.call(this, attr[i]);
-    return obj;
-};
 
-
-
-
-
-
-
-var data = {
-    title: 'LOVESYSU',
-    subtitle: 'Course',
-    placeholder: '搜索课程名、老师',
-    res: [
-    {
-        name: '数据结构与算法分析',
-        teacher: '吴向军',
-        catagory: '专必'
-    },
-    {
-        name: '大学生体质健康及个人运动处方实施',
-        teacher: '吴向军',
-        catagory: '专必'
-    },
-    {
-        name: '个人健康的自我管理能力发展',
-        teacher: '吴向军',
-        catagory: '专必'
-    }]
-};
-
-$('body').append(tpl('public/header', data));
+$('.js-index-search-form, .js-header-search-form').on('submit', function(event) {
+    event.preventDefault();
+    var keyword = $(this).find('[name="keyword"]').val();
+    window.location = '/search/'+keyword;
+});
 
 $('.fake-form').on('click', function() {
     $(this).parent().addClass('active');
@@ -1210,138 +1167,113 @@ $('.search-form input').on('blur', function() {
     $(this).parent().removeClass('active');
 });
 
-
-$('#container').append(tpl('public/rating', {rating: [0,0,0,0,0]}));
-
-
-
-var Rating = require('./rating');
-
-var ra = new Rating($('.rating'));
-ra.init().set(4);
-
-
-var sideData = {
-    catagories: [
-        {
-            name: '公选',
-            count: 10,
-        },
-        {
-            name: '专选',
-            count: 20
-        }
-    ]
-};
-
-$('#side').append(tpl('public/sticky', sideData));
-
-var Sticky = function($ele, callback) {
-    this.sticky = $ele;
-    this.callback = callback;
-    this.items = Array.prototype.slice.call($ele.find('li'), 0);
-};
-
-Sticky.prototype = {
-    constructor: Sticky,
-    init: function() {
-        for (var item in this.items) {
-            $(this.items[item]).on('click', this.handler());
-        }
-    },
-    handler: function() {
-        var self = this;
-        return function() {
-            $(this).toggleClass('fade');
-            self.callback(self.getValue());
-        };
-    },
-    getValue: function() {
-        var res = [];
-        for (var item in this.items) {
-            if (!$(this.items[item]).hasClass('fade')) {
-                res.push(item);
-            }
-        }
-        return res;
+var $allRating = $('.rating');
+for (var i = 0, len = $allRating.length; i < len; i++) {
+    var rt = new Rating($($allRating[i]));
+    if ($($allRating[i]).attr('data-allow') === 'True') {
+        rt.init();
+    } else {
+        var rate = +($($allRating[i]).attr('data-rate'));
+        console.log(rate);
+        rt.init().set(rate);
     }
-};
+}
 
 var st = new Sticky($('.sticky'), function(val){});
 st.init();
 
-$('#container').append(tpl('public/card', {
-    name: '美学漫步 —— 从赫西俄德开始',
-    teacher: '吴向军',
-    comments: 7,
-    catagory: '公选',
-    rating: [0,0,0,0,0]
-}));
-$('#container').append(tpl('public/card', {
-    name: '大学生体质健康及个人运动处方实施',
-    teacher: '吴向军',
-    comments: 7,
-    catagory: '公选',
-    rating: [1,1,1,0,0]
-}));
-
-$('#container').append(tpl('public/comment', {
-    rating: [0,0,0,0,0]
-}));
-
-var ra = new Rating($('.rating'));
-ra.init();
-
-$('#like').append(tpl('public/like', {
-    like: 10
-}));
-
-$('#container').append(tpl('public/quote', {
-    content: '1负边距  margin-left为负值，且两个元素不在一行的时候（可以用元素float:left,width:100%实现）margin-left可以吃掉兄弟元素的margin.想像一下，假设width:99%，右边留一条缝隙，当margin-left为负值，即可让右边的这条缝隙向左走',
-    like: 20,
-    author: 'Tommy'
-}));
-
-$('#container').append(tpl('public/quote', {
-    content: '新浪评论,中国最有影响力的新闻评论与观点咨询平台,收集各媒体社评',
-    like: 10,
-    author: 'Lawrance Li'
-}));
-
-$('#container').append(tpl('public/form', { head: '增加一门新课程'}));
-
-
-
-
-$('textarea').keyup(function () {
-    var t = $(this);
+$('.js-add-course-form').on('submit', function(event) {
+    event.preventDefault();
+    var postData = $(this).serialize();
+    postData += '&step=1';
+    $.ajax({
+        url: '/add/course',
+        type: 'POST',
+        data: postData,
+    })
+    .done(function(data) {
+        console.log(data);
+        if (data === '1') {
+            alert('success');
+            console.log("success");
+        } else if (data === '0') {
+            alert('fail');
+        } else {
+        }
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    .always(function() {
+        console.log("complete");
+    });
     
-    if (!this.justifyDoc) {
-        this.justifyDoc = $(document.createElement('div'));
-        // copy css
-        this.justifyDoc.css(t.css()).css({
-            'display'   :   'none',
-            'word-wrap' :   'break-word',
-            'min-height':   t.height(),
-            'height'    :   'auto'
-        }).insertAfter(t.css('overflow-y', 'hidden'));
-    }
-
-    var html = t.val().replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/'/g, '&#039;')
-        .replace(/"/g, '&quot;')
-        .replace(/ /g, '&nbsp;')
-        .replace(/((&nbsp;)*)&nbsp;/g, '$1 ')
-        .replace(/\n/g, '<br />')
-        .replace(/<br \/>[ ]*$/, '<br />-')
-        .replace(/<br \/> /g, '<br />&nbsp;');
-
-    this.justifyDoc.html(html);
-    t.height(this.justifyDoc.height());
 });
 
+$('.js-detail-comment-form').on('submit', function(event){
+    event.preventDefault();
+    var postData = $(this).serialize();
+    var course = $(this).attr('data-course');
+    var $stars = $(this).find('.icon-star');
+    var rating = $stars.length;
+    postData += '&rating='+rating;
+    postData += '&cid='+course;
+    $.ajax({
+        url: '/add/comment',
+        type: 'POST',
+        data: postData,
+    })
+    .done(function(data) {
+        console.log(data);
+        if (data === '1') {
+            alert('success');
+            console.log("success");
+        } else if (data === '0') {
+            alert('fail');
+        } else {
+        }
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    .always(function() {
+        console.log("complete");
+    });
+});
+
+function getCookie(name) {
+    var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+    return r ? r[1] : undefined;
+}
+
+$('.like-btn').on('click', function(event){
+    event.preventDefault();
+    var $like = $(this);
+    var $count = $like.find('.js-count');
+    var postData = $like.attr('data-comment');
+    var args = {"cmtid": postData};
+    args._xsrf = getCookie("_xsrf");
+    $.ajax({
+        url: '/add/like',
+        type: 'POST',
+        data: $.param(args),
+    })
+    .done(function(data) {
+        console.log(data);
+        if (data === '1') {
+            $count.text(1 + (+$count.text()));
+        } else if (data === '0') {
+            alert('fail');
+        } else {
+        }
+    })
+    .fail(function() {
+        console.log("error");
+    })
+    .always(function() {
+        console.log("complete");
+    });
+});
 $('input, textarea').on('focus', function() {
     $(this).nextAll('.label').addClass('active');
 });
@@ -1350,44 +1282,10 @@ $('input, textarea').on('blur', function() {
 });
 
 
-$('#container').append(tpl('public/table', {
-    name: '大学生体质健康及个人运动处方实施',
-    teacher: '吴向军',
-    catagory: '公选',
-    rating: [1,1,1,0,0],
-    quotelist: [
-        {
-            content: '1负边距  margin-left为负值，且两个元素不在一行的时候（可以用元素float:left,width:100%实现）margin-left可以吃掉兄弟元素的margin.想像一下，假设width:99%，右边留一条缝隙，当margin-left为负值，即可让右边的这条缝隙向左走',
-            like: 20,
-            author: 'Tommy'
-        }
-    ]
-}));
-
-$('#container').append(tpl('public/search', {
-    res: [
-    {
-        name: '数据结构与算法分析',
-        teacher: '吴向军',
-        catagory: '专必'
-    },
-    {
-        name: '大学生体质健康及个人运动处方实施',
-        teacher: '吴向军',
-        catagory: '专必'
-    },
-    {
-        name: '个人健康的自我管理能力发展',
-        teacher: '吴向军',
-        catagory: '专必'
-    }]
-}));
-
-$('#container').append(tpl('public/paginator', {}));
-
-var SearchTips = require('./search_tips');
+handlerTextarea();
 
 var st = new SearchTips({
+    url: '/search',
     notFoundText: '没有找到相关数据',
     addText: '想添加一门新的课程？',
     dropdown: $('.search .dropdown'),
@@ -1398,6 +1296,7 @@ st.init();
 
 
 var h = new SearchTips({
+    url: '/search',
     notFoundText: '没有找到相关数据',
     addText: '想添加一门新的课程？',
     dropdown: $('.search-form .dropdown'),
@@ -1405,7 +1304,7 @@ var h = new SearchTips({
 });
 
 h.init();
-},{"./data.js":"F:\\webpage\\courses\\client\\js\\data.js","./rating":"F:\\webpage\\courses\\client\\js\\rating.js","./search_tips":"F:\\webpage\\courses\\client\\js\\search_tips.js","./template.js":"F:\\webpage\\courses\\client\\js\\template.js","jquery":"F:\\webpage\\courses\\node_modules\\jquery\\dist\\jquery.js"}],"F:\\webpage\\courses\\client\\js\\rating.js":[function(require,module,exports){
+},{"./data.js":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\data.js","./rating":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\rating.js","./search_tips":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\search_tips.js","./sticky":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\sticky.js","./template.js":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\template.js","./textarea_plugin":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\textarea_plugin.js","jquery":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\node_modules\\jquery\\dist\\jquery.js"}],"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\rating.js":[function(require,module,exports){
 var $ = require('jquery');
 
 module.exports = function($ele) {
@@ -1460,12 +1359,12 @@ module.exports.prototype = {
         this.reset();
         for (var i = 0; i < rate; i++) {
             $(this.stars[i]).removeClass(this.iconStroke).addClass(this.iconFill);
-            this.stat = 1;
         }
+        this.stat = 1;
         return this;
     }
 };
-},{"jquery":"F:\\webpage\\courses\\node_modules\\jquery\\dist\\jquery.js"}],"F:\\webpage\\courses\\client\\js\\search_tips.js":[function(require,module,exports){
+},{"jquery":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\node_modules\\jquery\\dist\\jquery.js"}],"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\search_tips.js":[function(require,module,exports){
 var $ = require('jquery');
 
 var dd = require('./data.js');
@@ -1476,6 +1375,11 @@ module.exports = function(options) {
     this.options = options;
 };
 
+function getCookie(name) {
+    var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+    return r ? r[1] : undefined;
+}
+
 module.exports.prototype = {
     constructor: module.exports,
     init: function() {
@@ -1484,28 +1388,58 @@ module.exports.prototype = {
     },
     handler: function() {
         var self = this;
-        return function() {
+        return function(event) {
             if (!$(this).val()) {
                 self.options.dropdown.removeClass('active');
             } else {
                 var keyword = $(this).val();
-                self.handleData(keyword);
+                self.handleData(keyword, event);
             }
         }
     },
-    handleData: function(keyword) {
+    handleData: function(keyword, event) {
+        var self = this;
         var res = '';
-        for (var i = 0, len = ALLDATA.length; i < len; i++) {
-            if (ALLDATA[i].teacher.indexOf(keyword) > -1 ||
-                ALLDATA[i].name.indexOf(keyword) > -1) {
-                res += this.template(ALLDATA[i]);
+        self.lastTime = event.timeStamp;
+        setTimeout(function(){ 
+            //如果时间差为0，也就是你停止输入0.5s之内都没有其它的keyup事件产生，这个时候就可以去请求服务器了
+            if(self.lastTime - event.timeStamp == 0) {
+                var args = {"keyword": keyword};
+                args._xsrf = getCookie("_xsrf");
+                $.ajax({
+                    url: self.options.url,
+                    type: 'POST',
+                    data: $.param(args),
+                })
+                .done(function(data) {
+                    console.log(data);
+                    if (data === '0') {
+                        //alert('fail');
+                    } else {
+                        var response = $.parseJSON(data);
+                        response = response["all"];
+                        if (response.length === '0') {
+                            res = self.template();
+                        } else {
+                            for (var course in response) {
+                                res += self.template(response[course]);
+                            }
+                        }
+                        self.ul.empty().append(res);
+                        self.options.dropdown.addClass('active');
+                    }
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });  
+                var $val = $("#search").val();
+                $("#tip").html($val);                   
             }
-        }
-        if (res.length === 0) {
-            res = this.template();
-        }
-        this.ul.empty().append(res);
-        this.options.dropdown.addClass('active');
+        }, 500);
+        
     },
     template: function() {
         arguments = Array.prototype.slice.call(arguments, 0);
@@ -1534,7 +1468,40 @@ module.exports.prototype = {
         }
     }
 };
-},{"./data.js":"F:\\webpage\\courses\\client\\js\\data.js","jquery":"F:\\webpage\\courses\\node_modules\\jquery\\dist\\jquery.js"}],"F:\\webpage\\courses\\client\\js\\template.js":[function(require,module,exports){
+},{"./data.js":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\data.js","jquery":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\node_modules\\jquery\\dist\\jquery.js"}],"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\sticky.js":[function(require,module,exports){
+var $ = require('jquery');
+
+module.exports = function($ele, callback) {
+    this.sticky = $ele;
+    this.callback = callback;
+    this.items = Array.prototype.slice.call($ele.find('li'), 0);
+};
+
+module.exports.prototype = {
+    constructor: module.exports,
+    init: function() {
+        for (var item in this.items) {
+            $(this.items[item]).on('click', this.handler());
+        }
+    },
+    handler: function() {
+        var self = this;
+        return function() {
+            $(this).toggleClass('fade');
+            self.callback(self.getValue());
+        };
+    },
+    getValue: function() {
+        var res = [];
+        for (var item in this.items) {
+            if (!$(this.items[item]).hasClass('fade')) {
+                res.push(item);
+            }
+        }
+        return res;
+    }
+};
+},{"jquery":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\node_modules\\jquery\\dist\\jquery.js"}],"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\template.js":[function(require,module,exports){
 /*TMODJS:{"version":"1.0.0"}*/
 !function(){function a(a,b){return(/string|function/.test(typeof b)?h:g)(a,b)}function b(a,c){return"string"!=typeof a&&(c=typeof a,"number"===c?a+="":a="function"===c?b(a.call(a)):""),a}function c(a){return l[a]}function d(a){return b(a).replace(/&(?![\w#]+;)|[<>"']/g,c)}function e(a,b){if(m(a))for(var c=0,d=a.length;d>c;c++)b.call(a,a[c],c,a);else for(c in a)b.call(a,a[c],c)}function f(a,b){var c=/(\/)[^/]+\1\.\.\1/,d=("./"+a).replace(/[^/]+$/,""),e=d+b;for(e=e.replace(/\/\.\//g,"/");e.match(c);)e=e.replace(c,"/");return e}function g(b,c){var d=a.get(b)||i({filename:b,name:"Render Error",message:"Template not found"});return c?d(c):d}function h(a,b){if("string"==typeof b){var c=b;b=function(){return new k(c)}}var d=j[a]=function(c){try{return new b(c,a)+""}catch(d){return i(d)()}};return d.prototype=b.prototype=n,d.toString=function(){return b+""},d}function i(a){var b="{Template Error}",c=a.stack||"";if(c)c=c.split("\n").slice(0,2).join("\n");else for(var d in a)c+="<"+d+">\n"+a[d]+"\n\n";return function(){return"object"==typeof console&&console.error(b+"\n\n"+c),b}}var j=a.cache={},k=this.String,l={"<":"&#60;",">":"&#62;",'"':"&#34;","'":"&#39;","&":"&#38;"},m=Array.isArray||function(a){return"[object Array]"==={}.toString.call(a)},n=a.utils={$helpers:{},$include:function(a,b,c){return a=f(c,a),g(a,b)},$string:b,$escape:d,$each:e},o=a.helpers=n.$helpers;a.get=function(a){return j[a.replace(/^\.\//,"")]},a.helper=function(a,b){o[a]=b},"function"==typeof define?define(function(){return a}):"undefined"!=typeof exports?module.exports=a:this.template=a,/*v:3*/
 a("page",function(a,b){"use strict";var c=this,d=(c.$helpers,function(d,f){f=f||a;var g=c.$include(d,f,b);return e+=g}),e="";return d("./public/header"),e+=" <h2>Hello</h2>",new k(e)}),/*v:1*/
@@ -1550,7 +1517,63 @@ a("public/rating",function(a){"use strict";var b=this,c=(b.$helpers,b.$each),d=a
 a("public/search",function(a,b){"use strict";var c=this,d=(c.$helpers,function(d,f){f=f||a;var g=c.$include(d,f,b);return e+=g}),e="";return e+='<div class="search"> <form action=""> <input type="text"> <button><i class="icon-search"></i></button> </form> ',d("./dropdown"),e+=" </div>",new k(e)}),/*v:1*/
 a("public/sticky",function(a){"use strict";var b=this,c=(b.$helpers,b.$each),d=a.catagories,e=(a.$value,a.$index,b.$escape),f="";return f+='<div class="sticky"> <ul> ',c(d,function(a){f+=" <li> <span>",f+=e(a.name),f+='</span> <span class="tag">',f+=e(a.count),f+="</span> </li> "}),f+=" </ul> </div>",new k(f)}),/*v:4*/
 a("public/table",function(a,b){"use strict";var c=this,d=(c.$helpers,c.$escape),e=a.name,f=a.teacher,g=a.catagory,h=function(d,e){e=e||a;var f=c.$include(d,e,b);return l+=f},i=c.$each,j=a.quotelist,l=(a.$value,a.$index,"");return l+='<div class="table-header"> <i class="icon-graduation-cap"></i> <h2>',l+=d(e),l+='</h2> </div> <div class="table"> <div class="table-row"> <span class="value">',l+=d(f),l+='</span> <span class="label">\u6559\u5e08</span> </div> <div class="table-row"> <span class="value">',l+=d(g),l+='</span> <span class="label">\u7c7b\u522b</span> </div> <div class="table-row"> <div class="value">',h("./rating"),l+='</div> <span class="label">\u8bc4\u5206</span> </div> <div class="cross-row"> ',i(j,function(a){l+=" ",h("./quote",a),l+=" "}),l+=" </div> </div>",new k(l)})}();
-},{}],"F:\\webpage\\courses\\node_modules\\jquery\\dist\\jquery.js":[function(require,module,exports){
+},{}],"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\textarea_plugin.js":[function(require,module,exports){
+var $ = require('jquery');
+
+$.fn.css2 = $.fn.css;
+$.fn.css = function() {
+    if (arguments.length) return $.fn.css2.apply(this, arguments);
+    var attr = ['font-family','font-size','font-weight','font-style','color',
+        'text-transform','text-decoration','letter-spacing', 'box-shadow',
+        'line-height','text-align','vertical-align','direction','background-color',
+        'background-image','background-repeat','background-position',
+        'background-attachment','opacity','width','height','top','right','bottom',
+        'left','margin-top','margin-right','margin-bottom','margin-left',
+        'padding-top','padding-right','padding-bottom','padding-left',
+        'border-top-width','border-right-width','border-bottom-width',
+        'border-left-width','border-top-color','border-right-color',
+        'border-bottom-color','border-left-color','border-top-style',
+        'border-right-style','border-bottom-style','border-left-style','position',
+        'display','visibility','z-index','overflow-x','overflow-y','white-space',
+        'clip','float','clear','cursor','list-style-image','list-style-position',
+        'list-style-type','marker-offset'];
+    var len = attr.length, obj = {};
+    for (var i = 0; i < len; i++) 
+        obj[attr[i]] = $.fn.css2.call(this, attr[i]);
+    return obj;
+};
+
+module.exports = function() {
+    $('textarea').keyup(function () {
+        var t = $(this);
+        
+        if (!this.justifyDoc) {
+            this.justifyDoc = $(document.createElement('div'));
+            // copy css
+            this.justifyDoc.css(t.css()).css({
+                'display'   :   'none',
+                'word-wrap' :   'break-word',
+                'min-height':   t.height(),
+                'height'    :   'auto'
+            }).insertAfter(t.css('overflow-y', 'hidden'));
+        }
+
+        var html = t.val().replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/'/g, '&#039;')
+            .replace(/"/g, '&quot;')
+            .replace(/ /g, '&nbsp;')
+            .replace(/((&nbsp;)*)&nbsp;/g, '$1 ')
+            .replace(/\n/g, '<br />')
+            .replace(/<br \/>[ ]*$/, '<br />-')
+            .replace(/<br \/> /g, '<br />&nbsp;');
+
+        this.justifyDoc.html(html);
+        t.height(this.justifyDoc.height());
+    });
+};
+},{"jquery":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\node_modules\\jquery\\dist\\jquery.js"}],"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\node_modules\\jquery\\dist\\jquery.js":[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -10757,4 +10780,4 @@ return jQuery;
 
 }));
 
-},{}]},{},["F:\\webpage\\courses\\client\\js\\data.js","F:\\webpage\\courses\\client\\js\\main.js","F:\\webpage\\courses\\client\\js\\rating.js","F:\\webpage\\courses\\client\\js\\search_tips.js","F:\\webpage\\courses\\client\\js\\template.js"]);
+},{}]},{},["C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\data.js","C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\main.js","C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\rating.js","C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\search_tips.js","C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\sticky.js","C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\template.js","C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\textarea_plugin.js"]);

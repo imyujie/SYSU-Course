@@ -30,11 +30,11 @@ class Comment(object):
 
     @property
     def unlike(self):
-        return self.unlike
+        return self.__unlike
 
     @property
     def status(self):
-        return self.status
+        return self.__status
         
     @staticmethod
     def change_status(cmtid, status):
@@ -62,7 +62,9 @@ class Comment(object):
 
     @staticmethod
     def insert_comment(comment, author):
-        db["comment"].insert({"_id": Comment.get_next_sequence_value(), "comment": comment, "author": author, "like": 0, "unlike": 0, "status": 1});
+        cmtid = Comment.get_next_sequence_value()
+        db["comment"].insert({"_id": cmtid, "comment": comment, "author": author, "like": 0, "unlike": 0, "status": 1})
+        return cmtid
     
     @staticmethod
     def get_comment_by_cmtid(cmtid):

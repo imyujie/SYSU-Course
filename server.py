@@ -7,7 +7,7 @@ import tornado.options
 from app import Application
 
 from tornado.options import define, options
-define("port", default=8000, help="run on the given port", type=int)
+define("port", default=8003, help="run on the given port", type=int)
 
 def main():
     tornado.options.parse_command_line()

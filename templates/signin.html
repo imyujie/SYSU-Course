@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block body %}
+<form action="/signin">
+    {% raw xsrf_form_html() %}
+    <input type="text" name="uid">
+    <input type="password" name="pwd">
+    <button type="submit">提交</button>
+</form>
+{% end %}

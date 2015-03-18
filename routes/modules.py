@@ -12,9 +12,10 @@ class CardModule(tornado.web.UIModule):
 			)
 
 class CommentModule(tornado.web.UIModule):
-	def render(self, rating):
+	def render(self, clickable, course):
 		return self.render_string('modules/comment.html',
-			rating=rating
+			course=course,
+			clickable=clickable
 			)
 
 class DropdownModule(tornado.web.UIModule):
@@ -36,9 +37,9 @@ class HeaderModule(tornado.web.UIModule):
 			)
 
 class LikeModule(tornado.web.UIModule):
-	def render(self, like):
+	def render(self, comment):
 		return self.render_string('modules/like.html',
-			like=like
+			comment=comment
 			)
 
 class PaginatorModule(tornado.web.UIModule):
@@ -48,14 +49,14 @@ class PaginatorModule(tornado.web.UIModule):
 class QuoteModule(tornado.web.UIModule):
 	def render(self, comment):
 		return self.render_string('modules/quote.html',
-			comment=comment
+			comment=comment,
 			)
 
 
 class RatingModule(tornado.web.UIModule):
-	def render(self, rating, clickable):
+	def render(self, course, clickable):
 		return self.render_string('modules/rating.html',
-			rating=rating,
+			item=course,
 			clickable=clickable
 			)
 
@@ -65,15 +66,16 @@ class SearchModule(tornado.web.UIModule):
 			)
 
 class StickyModule(tornado.web.UIModule):
-	def render(self, catagories):
+	def render(self, categories):
 		return self.render_string('modules/sticky.html',
-			catagories=catagories
+			categories=categories
 			)
 
 class TableModule(tornado.web.UIModule):
-	def render(self, course):
+	def render(self, clickable, course):
 		return self.render_string('modules/table.html',
-			course=course
+			course=course,
+			clickable=clickable
 			)
 
 class PageModule(tornado.web.UIModule):

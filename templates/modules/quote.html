@@ -1,13 +1,13 @@
 <div class="quote">
     <div class="quote-body">
         <div class="right">
-            <p>{{ item.comment }}</p>
+            <p>{{ comment.comment }}</p>
             <div class="row">
-                <span>—— {{ item.author}}</span>
+                <span>—— {{ comment.author}}</span>
             </div>
         </div>
         <div class="left">
-            {% module Like(item.like) %}
+            {% module Like(comment) %}
         </div>
     </div>
     <div class="divider"></div>

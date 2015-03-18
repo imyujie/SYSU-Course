@@ -39,9 +39,16 @@ select {
   cursor: pointer;
 }
 
+.limited {
+  margin: 0 auto;
+  width: 700px;
+  margin-top: 90px;
+}
+
 header {
   height: 60px;
   background-color: #424242;
+  z-index: 100;
   position: fixed;
   width: 100%;
   top: 0;
@@ -76,6 +83,9 @@ header .controller {
   height: 32px;
   box-sizing: border-box;
   float: right;
+}
+header .controller a {
+  color: #fff;
 }
 header .controller i {
   cursor: pointer;
@@ -476,6 +486,7 @@ header .search-btn .icon-search {
   box-sizing: border-box;
   background: #fff;
   margin-top: 40px;
+  margin-bottom: 40px;
 }
 .table .table-row {
   overflow: hidden;

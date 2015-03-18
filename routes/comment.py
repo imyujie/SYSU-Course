@@ -76,16 +76,27 @@ class AddCommentHandler(BaseHandler):
         pass
 
     def post(self):
-        # todo
-        # cmtid
-        # cid
+        comment = self.get_argument("content", None)
+        author = self.get_argument("author", None)
+        rating = self.get_argument("rating", None)
+        cid = self.get_argument("cid", None)
+        print comment
+        print author
+        print rating
+        print cid
+        if comment and author and rating and cid:
+            Course.add_comment(int(cid), comment, author)
+            Course.add_rating(int(cid), int(rating))
+            self.write("1")
+        else:
+            self.write("0")
 
 class DeleteCommentHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
         cmtid = self.get_argument("cmtid", None)
         if cmtid:
-            Comment.change_status("cmtid", 0)
+            Comment.change_status(int(cmtid), 0)
             self.redirect('/admin/all')
 
     def post(self):
@@ -96,7 +107,7 @@ class UndoDeleteCommentHandler(BaseHandler):
     def get(self):
         cmtid = self.get_argument("cmtid", None)
         if cmtid:
-            Comment.change_status("cmtid", 1)
+            Comment.change_status(int(cmtid), 1)
             self.redirect('/admin/all')
 
     def post(self):

@@ -12,46 +12,118 @@ from models.courses import Course
 from base import BaseHandler
 
 class SearchHandler(BaseHandler):
-    def get(self, category, teacher, name):
-        pass
+    def get(self):
+        keyword = self.get_argument('keyword', None)
+        if keyword:
+            results = Course.get_courses_by_keyword(keyword)
+            categories = sum_of_categories(results)
+            self.render('result.html',
+                keyword=keyword,
+                categories=categories,
+                results=results
+                )
+
 
     def post(self):
-        pass
+        keyword = self.get_argument('keyword', None)
+        if keyword:
+            results = Course.get_courses_by_keyword(keyword)
+            res = {"all": []}
+            for i in results:
+                res["all"].append({
+                    "name": i.name,
+                    "teacher": i.teacher,
+                    "category": i.category
+                    })
+            json_str = json.dumps(res, ensure_ascii=False)
+            self.write(json_str)
+
+def sum_of_categories(courses):
+    categories = [0, 0, 0, 0, 0]
+    for i in courses:
+        categories[i.category-1]++
+    return categories
 
 class DetailHandler(BaseHandler):
-    def get(self):
-        pass
+    def get(self, category, teacher, name):
+        res = Course.get_course_by_cate_teac_name(category, teacher, name)
+        if res:
+            self.render('detail.html',
+                course=res
+                )
+        else:
+            self.render('404.html')
+        
 
     def post(self):
         pass
 
 class RemoveCourseHandler(BaseHandler):
+    @tornado.web.authenticated
     def get(self):
-        pass
+        Course.delete_course_by_status()
 
     def post(self):
         pass
 
 class DeleteCourseHandler(BaseHandler):
+    @tornado.web.authenticated
     def get(self):
-        pass
+        cid = self.get_argument('cid', None)
+        if cid:
+            Course.change_status(cid, 0)
 
     def post(self):
         pass
 
 class UndoDeleteCourseHandler(BaseHandler):
+    @tornado.web.authenticated
     def get(self):
-        pass
+        cid = self.get_argument('cid', None)
+        if cid:
+            Course.change_status(cid, 1)
 
     def post(self):
         pass
 
 class AddCourseHandler(BaseHandler):
     def get(self):
-        pass
+        self.render('add.html',
+            head='添加课程'
+            )
 
     def post(self):
-        pass
+        title = self.get_argument('title', None)
+        teacher = self.get_argument('teacher', None)
+        category = self.get_argument('category', None)
+        comment = self.get_argument('comment', None)
+        author = self.get_argument('author', None)
+        step = self.get_argument('step', None)
+        if title and teacher and category and comment and author:
+            res = Course.get_course_by_name(title)
+            if res and step == 1:
+                result = {"all": []}
+                for i in res:
+                    result["all"].append({
+                        "name": i.name,
+                        "teacher": i.teacher,
+                        "category": i.category
+                        })
+                json_str = json.dumps(result, ensure_ascii=False)
+                self.write(json_str)
+            else:
+                cid = Course.insert_course({
+                    "name": title,
+                    "teacher": teacher,
+                    "category": category
+                    })
+                Course.add_comment(cid, comment, author)
+                self.write("1")
+        else:
+            self.write("0")
+
+
+
 
 class ExportHanlder(BaseHandler):
     @tornado.web.authenticated

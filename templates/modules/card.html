@@ -1,0 +1,17 @@
+<div class="card">
+    <a href="#">
+        <div class="row">
+            <h2>{{ item.name }}</h2>
+            {% module Rating(item.rating, clickable) %}
+        </div>
+        <div class="row">
+            <div class="subtitle">
+                <span> {{ item.teacher }} </span>
+                <span> {{ item.catagory }} </span>
+            </div>
+            <span>
+                {{ item.comments }} 条评论
+            </span>
+        </div>
+    </a>
+</div>

@@ -1,0 +1,10 @@
+<div class="sticky">
+    <ul>
+        {% for item in categories %}
+            <li>
+                <span>{{ item.name }}</span>
+                <span class="tag">{{ item.count}}</span>
+            </li>
+        {% end %}
+    </ul>
+</div>

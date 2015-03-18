@@ -71,6 +71,15 @@ class CutUnlikeHandler(BaseHandler):
         else:
             self.write("0")
 
+class AddCommentHandler(BaseHandler):
+    def get(self):
+        pass
+
+    def post(self):
+        # todo
+        # cmtid
+        # cid
+
 class DeleteCommentHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):

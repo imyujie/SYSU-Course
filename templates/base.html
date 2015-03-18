@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{{ page_title }}</title>
+</head>
+<body>
+	{% module Header(title, subtitle, placeholder) %}
+	<div class="limited">
+		{% block body %}{% end %}
+	</div>
+</body>
+</html>

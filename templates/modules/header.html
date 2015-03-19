@@ -1,14 +1,16 @@
 <header>
     <div class="wrapper">
         <div class="logo">
-            <h1>{{ title }}</h1>
-            <h2>{{ subtitle }}</h2>
+            <a href="/">
+                <h1>{{ title }}</h1>
+                <h2>{{ subtitle }}</h2>
+            </a>
         </div>
         <div class="controller">
-            <form action="" class="search-form js-header-search-form">
+            <form action="" class="search-form js-header-search-form" autocomplete="off">
                 {% raw xsrf_form_html() %}
                 <div class="fake-form"></div>
-                <input type="text" placeholder="{{ placeholder }}" name="keyword">
+                <input type="text" placeholder="{{ placeholder }}" name="keyword" required>
                 <button type="submit" class="search-btn">
                     <i class="icon-search"></i>
                 </button>

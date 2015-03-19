@@ -41,8 +41,11 @@ class SearchTipsHandler(BaseHandler):
                     "teacher": i.teacher,
                     "category": i.category
                     })
-            json_str = json.dumps(res, ensure_ascii=False)
-            self.write(json_str)
+            if len(res["all"]) == 0:
+                self.write("2")
+            else:
+                json_str = json.dumps(res, ensure_ascii=False)
+                self.write(json_str)
         else:
             self.write("0");
 
@@ -118,19 +121,26 @@ class AddCourseHandler(BaseHandler):
         comment = self.get_argument('comment', None)
         author = self.get_argument('author', None)
         step = self.get_argument('step', None)
+        rating = self.get_argument('rating', None)
+        print rating
         step = int(step)
         print teacher
-        if title and teacher and category and comment and author:
+        if title and teacher and category and comment and author and rating:
+            resu = Course.get_course_by_cate_teac_name(int(category), teacher, title)
+            if resu:
+                self.write('2')
+                return
             res = Course.get_course_by_name(title)
             if res and step == 1:
                 result = {"all": []}
                 for i in res:
-                    result["all"].append({"name": i.name, "teacher": i.teacher, "category": i.category })
+                    result["all"].append({"name": i.name, "teacher": i.teacher, "category": i.get_category_name(), "comments": len(i.get_comments()), "rating": i.get_rating()})
                 json_str = json.dumps(result, ensure_ascii=False)
                 self.write(json_str)
             else:
                 cid = Course.insert_course({"name": title, "teacher": teacher, "category": int(category) })
                 Course.add_comment(cid, comment, author)
+                Course.add_rating(int(cid), int(rating))
                 self.write("1")
         else:
             self.write("0")

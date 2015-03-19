@@ -55,5 +55,14 @@ module.exports.prototype = {
         }
         this.stat = 1;
         return this;
+    },
+    reinit: function() {
+        this.reset();
+        this.stat = 0;
+        return this;
+    },
+    get: function() {
+        var res = this.rating.find('.icon-star');
+        return res.length;
     }
 };

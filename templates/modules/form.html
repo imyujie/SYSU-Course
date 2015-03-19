@@ -2,20 +2,20 @@
     <div class="form-header">
         <h2>{{head}}</h2>
     </div>
-    <div class="form-body">
-        <form class="js-add-course-form" action="">
+    <form class="js-add-course-form" action="">
+        <div class="form-body">
             {% raw xsrf_form_html() %}
             <div class="row">
-                <input type="text" name="title" id="title">
+                <input type="text" name="title" id="title" required>
                 <span class="label">课程名称</span>
             </div>
             <div class="row">
-                <input type="text" name="teacher" id="teacher">
+                <input type="text" name="teacher" id="teacher" required>
                 <span class="label">教师</span>
             </div>
             <div class="row row-select">
                 <div class="select">
-                    <select name="category" id="category">
+                    <select name="category" id="category" required>
                         <option value="1">公选</option>
                         <option value="2">专选</option>
                         <option value="3">公必</option>
@@ -26,17 +26,26 @@
                 <span class="label">类别</span>
             </div>
             <div class="row">
-                <textarea name="comment" id="comment" row="1"></textarea>
+                <textarea name="comment" id="comment" row="1" required></textarea>
                 <span class="label">评论</span>
             </div>
             <div class="row">
-                <input type="text" name="author" id="author">
+                {% module Rating(None, True) %}
+                <span class="label">评分</span>
+            </div>
+            <div class="row">
+                <input type="text" name="author" id="author" required>
                 <span class="label">你的名字</span>
             </div>
+        </div>
+        <div class="form-tips">
+            <p></p>
+        </div>
+        <div class="form-footer">
             <div class="btn-group">
                 <button type="reset">取消</button>
                 <button type="submit">提交</button>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>

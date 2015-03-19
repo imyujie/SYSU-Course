@@ -11,6 +11,23 @@
     <div class="limited">
         {% block body %}{% end %}
     </div>
+    <div class="background-mask">
+        <div class="modal-area">
+            <div class="modal">
+                <div class="modal-header">
+                    <div class="title">提示</div>
+                    <div class="close-btn">×</div>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <button id="cancel">取消</button>
+                        <button id="confirm">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="{{ static_url("dist/js/app.js")}}"></script>
 </body>
 </html>

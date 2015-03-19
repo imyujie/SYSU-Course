@@ -1,4 +1,4 @@
-<div class="rating" data-allow="{{ clickable }}" data-rate="{{ item.get_rating() }}">
+<div class="rating" data-allow="{{ clickable }}" {%if not clickable %}data-rate="{{ item.get_rating() }}"{% end %}>
     <i class="icon-star-empty"></i>
     <i class="icon-star-empty"></i>
     <i class="icon-star-empty"></i>

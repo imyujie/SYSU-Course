@@ -2,12 +2,15 @@
 {% raw xsrf_form_html() %}
 <div class="comment-write">
         <div class="row">
-            <textarea name="content" id="" cols="30" rows="10" placeholder="说点什么"></textarea>
+            <textarea name="content" id="content" cols="30" rows="10" placeholder="说点什么" required></textarea>
         </div>
         <div class="row">
-            <input type="text" placeholder="你的名字" name="author">
+            <input type="text" placeholder="你的名字" name="author" id="author" required>
             {% module Rating(course, clickable) %}
         </div>
+</div>
+<div class="form-tips">
+    <p></p>
 </div>
 <div class="btn-group">
     <button type="reset">取消</button>

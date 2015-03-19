@@ -55,10 +55,15 @@ class QuoteModule(tornado.web.UIModule):
 
 class RatingModule(tornado.web.UIModule):
 	def render(self, course, clickable):
-		return self.render_string('modules/rating.html',
-			item=course,
-			clickable=clickable
-			)
+		if course:
+			return self.render_string('modules/rating.html',
+				item=course,
+				clickable=clickable
+				)
+		else:
+			return self.render_string('modules/rating.html',
+				clickable=clickable
+				)
 
 class SearchModule(tornado.web.UIModule):
 	def render(self):

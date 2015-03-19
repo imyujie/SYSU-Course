@@ -80,16 +80,12 @@ class AddCommentHandler(BaseHandler):
         author = self.get_argument("author", None)
         rating = self.get_argument("rating", None)
         cid = self.get_argument("cid", None)
-        print comment
-        print author
-        print rating
-        print cid
         if comment and author and rating and cid:
-            Course.add_comment(int(cid), comment, author)
+            cmtid = Course.add_comment(int(cid), comment, author)
             Course.add_rating(int(cid), int(rating))
-            self.write("1")
+            self.write(str(cmtid))
         else:
-            self.write("0")
+            self.write("-1")
 
 class DeleteCommentHandler(BaseHandler):
     @tornado.web.authenticated

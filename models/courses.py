@@ -74,6 +74,7 @@ class Course(object):
             item = Comment.get_comment_by_cmtid(i)
             if item.status == 1:
                 alist.append(item)
+        alist = sorted(alist, key=lambda cmt : cmt.like-cmt.unlike, reverse=True)
         return alist
 
     def get_all_comments(self):
@@ -141,6 +142,7 @@ class Course(object):
                 }
             }
         )
+        return cmtid
 
     @staticmethod
     def add_rating(cid, rating):
@@ -193,7 +195,7 @@ class Course(object):
         alist = []
         if item:
             for it in item:
-                alist.append(Course(item["_id"], item["name"], item["teacher"], item["category"], item["cmtids"], item["status"], item["count"], item["sum"]))
+                alist.append(Course(it["_id"], it["name"], it["teacher"], it["category"], it["cmtids"], it["status"], it["count"], it["sum"]))
             return alist
         return False
 

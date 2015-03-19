@@ -48,15 +48,15 @@ module.exports.prototype = {
                     console.log(data);
                     if (data === '0') {
                         //alert('fail');
+                    } else if (data === '2') {
+                        res = self.template();
+                        self.ul.empty().append(res);
+                        self.options.dropdown.addClass('active');
                     } else {
                         var response = $.parseJSON(data);
                         response = response["all"];
-                        if (response.length === '0') {
-                            res = self.template();
-                        } else {
-                            for (var course in response) {
-                                res += self.template(response[course]);
-                            }
+                        for (var course in response) {
+                            res += self.template(response[course]);
                         }
                         self.ul.empty().append(res);
                         self.options.dropdown.addClass('active');

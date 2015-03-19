@@ -67,12 +67,23 @@ header {
   margin: 0 auto;
 }
 
+.form-tips {
+  height: 50px;
+  line-height: 50px;
+}
+.form-tips p {
+  color: rgba(0, 0, 0, 0.7);
+  padding-right: 10px;
+  text-align: right;
+}
+
 header .logo {
   height: 32px;
   line-height: 32px;
   float: left;
 }
-header h1, header h2 {
+header a h1, header a h2 {
+  color: #efefef;
   display: inline-block;
 }
 header h1 {
@@ -387,6 +398,14 @@ header .search-btn .icon-search {
 .form-wrapper .form-body .label.active {
   opacity: 1;
 }
+.form-wrapper .form-body .rating {
+  box-sizing: border-box;
+  padding: 12px 0;
+  height: 50px;
+  width: 100%;
+  display: inline-block;
+  float: left;
+}
 .form-wrapper .form-body input, .form-wrapper .form-body .select, .form-wrapper .form-body textarea {
   box-sizing: border-box;
   font-size: 16px;
@@ -434,6 +453,9 @@ header .search-btn .icon-search {
   background-color: transparent;
   -webkit-appearance: none;
 }
+.form-wrapper .form-footer {
+  width: 100%;
+}
 
 .dropdown {
   width: 100%;
@@ -460,10 +482,13 @@ header .search-btn .icon-search {
 .dropdown ul li:hover h3 {
   color: #fff;
 }
+.dropdown ul li:hover a h4 {
+  color: #fff;
+}
 .dropdown ul li:hover .row {
   color: rgba(255, 255, 255, 0.7);
 }
-.dropdown ul li h3 {
+.dropdown ul li h3, .dropdown ul li a h4 {
   font-size: 14px;
   color: #626262;
 }
@@ -653,6 +678,69 @@ header .search-btn .icon-search {
   width: 100%;
   float: left;
   min-height: 100px;
+}
+
+.background-mask {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 500;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+}
+.background-mask .modal-area {
+  position: fixed;
+  width: 100%;
+  top: 50%;
+  margin-top: -200px;
+}
+.background-mask .modal-area .modal {
+  position: relative;
+  width: 640px;
+  height: 400px;
+  border-radius: 5px;
+  margin: 0 auto;
+  background-color: #fafafa;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2), 0 19px 37px rgba(0, 0, 0, 0.12);
+}
+.background-mask .modal-area .modal-header {
+  border-bottom: 1px solid #eee;
+  height: 50px;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 16px 32px;
+  opacity: .8;
+}
+.background-mask .modal-area .modal-header .title {
+  float: left;
+}
+.background-mask .modal-area .modal-header .close-btn {
+  cursor: pointer;
+  float: right;
+}
+.background-mask .modal-area .modal-footer {
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  padding-bottom: 16px;
+  padding-right: 32px;
+  bottom: 0;
+  left: 0;
+}
+.background-mask .modal-area .modal-footer.hidden {
+  display: none;
+}
+.background-mask .modal-area .modal-body {
+  box-sizing: border-box;
+  padding: 20px 32px;
+  overflow-y: auto;
+}
+.background-mask .modal-area .modal-body h2 {
+  margin: 10px;
+  color: rgba(0, 0, 0, 0.7);
 }
 
 /*# sourceMappingURL=app.css.map */

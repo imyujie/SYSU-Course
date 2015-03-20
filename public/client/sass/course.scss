@@ -2,7 +2,7 @@
 @import "reset";
 $headerHeight: 60px;
 $themeColor: #424242;
-$goodWidth: 700px;
+$goodWidth: 650px;
 
 @mixin center-block {
     margin: 0 auto;
@@ -17,9 +17,37 @@ $goodWidth: 700px;
     transition: $trvar;
 }
 .limited {
+    position: relative;
     margin: 0 auto;
-    width: 700px;
+    width: $goodWidth;
     padding-top: 90px;
+}
+
+.index-wrapper {
+    padding-top: 190px;
+    padding-bottom: 320px;
+}
+@media screen and (max-height: 780px) {
+    .index-wrapper {
+        padding-top: 90px;
+        padding-bottom: 190px;
+    }
+}
+.index-title {
+    margin-bottom: 40px;
+    p {
+        font-size: 36px;
+        font-weight: bold;
+        text-align: center;
+        color: #444a53;
+    }
+}
+footer {
+    padding-bottom: 10px;
+}
+footer .limited p {
+    color: #ccc;
+    text-align: center;
 }
 $headerPadding: 14px;
 header {
@@ -157,6 +185,10 @@ header {
     }
 }
 
+.rating[data-allow="True"] i {
+    cursor: pointer;
+}
+
 .sticky {
     width: 100%;
     ul {
@@ -191,7 +223,7 @@ header {
 
 @mixin radius-box {
     border-radius: 6px;
-    border: 1px solid #efefef;
+    border: 1px solid #ccc;
     @include border-box;
     background: #fff;
 }
@@ -236,7 +268,7 @@ $inputHeight: 30px;
         width: 100%;
     }
     .row:last-child {
-        border-top: 1px dashed #efefef;
+        border-top: 1px dashed #ddd;
     }
     textarea {
         width: 100%;
@@ -351,7 +383,7 @@ $labelWidth: 100px;
             overflow: hidden;
             @include border-box;
             padding-left: $labelWidth;
-            border-bottom: 1px dashed #efefef;
+            border-bottom: 1px dashed #ddd;
             min-height: 50px;
         }
         .label {
@@ -496,7 +528,7 @@ $tableLabelWidth: 80px;
         overflow: hidden;
         @include border-box;
         padding-left: $tableLabelWidth;
-        border-bottom: 1px dashed #efefef;
+        border-bottom: 1px dashed #ddd;
         min-height: 50px;
     }
     .label {
@@ -504,7 +536,7 @@ $tableLabelWidth: 80px;
         @include border-box;
         float: left;
         color: #383e49;
-        opacity: .5;
+        opacity: 1;
         width: $tableLabelWidth;
         position: relative;
         margin-left: -100%;
@@ -524,7 +556,7 @@ $tableLabelWidth: 80px;
         float: left;
         width: 100%;
         padding-left: 20px;
-        border-left: 1px dashed #efefef;
+        border-left: 1px dashed #ddd;
         .rating {
             margin-left: -4px;
         }
@@ -532,7 +564,7 @@ $tableLabelWidth: 80px;
     .cross-row {
         @include border-box;
         position: relative;
-        padding: 50px 10px;
+        padding: 50px 17px;
         .quote:last-child .divider {
             display: none;
         }
@@ -556,7 +588,7 @@ $tableLabelWidth: 80px;
         @include border-box;
         top: 56px;
         box-shadow: none;
-        border: 1px solid #efefef;
+        border: 1px solid #eee;
         ul li {
             padding: 10px 24px;
         }
@@ -588,7 +620,7 @@ $tableLabelWidth: 80px;
         }
         button i {
             font-size: 20px;
-            color: #e6e6e6;
+            color: #ddd;
         }
     }
 }

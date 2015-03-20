@@ -57,6 +57,7 @@ def sum_of_categories(courses):
 
 class DetailHandler(BaseHandler):
     def get(self, category, teacher, name):
+        userip = self.request.remote_ip
         if category == "体育":
             category = 5
         if category == "公选":
@@ -122,9 +123,7 @@ class AddCourseHandler(BaseHandler):
         author = self.get_argument('author', None)
         step = self.get_argument('step', None)
         rating = self.get_argument('rating', None)
-        print rating
         step = int(step)
-        print teacher
         if title and teacher and category and comment and author and rating:
             resu = Course.get_course_by_cate_teac_name(int(category), teacher, title)
             if resu:

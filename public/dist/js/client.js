@@ -1140,16 +1140,11 @@ module.exports = {
     }]
 };
 },{}],"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\main.js":[function(require,module,exports){
-var tpl = require('./template.js');
 var $ = require('jquery');
-var dd = require('./data.js');
 var Rating = require('./rating');
 var SearchTips = require('./search_tips');
 var Sticky = require('./sticky');
 var handlerTextarea = require('./textarea_plugin');
-
-var ALLDATA = dd['all'];
-
 
 $('.js-index-search-form, .js-header-search-form').on('submit', function(event) {
     event.preventDefault();
@@ -1211,7 +1206,7 @@ var cardTpl = function(item) {
     +'        </div>'
     +'    </a>';
     return res;
- };
+};
 
 var addTips = function(str) {
     $('.form-tips p').text(str);
@@ -1221,7 +1216,6 @@ var addTips = function(str) {
 var Modal = function(options) {
     this.options = options;
 };
-
 
 Modal.prototype = {
     init: function() {
@@ -1270,6 +1264,8 @@ var mdd = new Modal({
 
 mdd.init();
 
+
+
 var formRat = new Rating($('.js-add-course-form .rating'));
 formRat.init();
 
@@ -1297,6 +1293,10 @@ $('.js-add-course-form').on('submit', function(event) {
     }
     if (!author) {
         addTips('貌似还没填写你的名字');
+        return;
+    }
+    if (comment.length < 15) {
+        addTips('评论需要大于15个字哦');
         return;
     }
     var postData = $(this).serialize();
@@ -1439,6 +1439,10 @@ $('.js-detail-comment-form').on('submit', function(event){
     }
     if (!author) {
         addTips('貌似还没填写你的名字');
+        return;
+    }
+    if (content.length < 15) {
+        addTips('评论内容要 15 个字以上哦');
         return;
     }
     postData += '&rating='+rating;
@@ -1599,7 +1603,7 @@ for (var i = 1; i < 6; i++) {
 var st = new Sticky($('.sticky'), function(val){}, sd);
 st.init();
 
-},{"./data.js":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\data.js","./rating":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\rating.js","./search_tips":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\search_tips.js","./sticky":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\sticky.js","./template.js":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\template.js","./textarea_plugin":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\textarea_plugin.js","jquery":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\node_modules\\jquery\\dist\\jquery.js"}],"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\rating.js":[function(require,module,exports){
+},{"./rating":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\rating.js","./search_tips":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\search_tips.js","./sticky":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\sticky.js","./textarea_plugin":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\textarea_plugin.js","jquery":"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\node_modules\\jquery\\dist\\jquery.js"}],"C:\\Users\\Yujie\\Documents\\GitHub\\SYSU-Course\\public\\client\\js\\rating.js":[function(require,module,exports){
 var $ = require('jquery');
 
 module.exports = function($ele) {

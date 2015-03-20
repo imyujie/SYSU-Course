@@ -16,6 +16,7 @@ class AddLikeHandler(BaseHandler):
             self.redirect('/admin/all')
 
     def post(self):
+        userip = self.request.remote_ip
         cmtid = self.get_argument("cmtid", None)
         if cmtid:
             Comment.add_like(int(cmtid))
@@ -32,6 +33,7 @@ class CutLikeHandler(BaseHandler):
             self.redirect('/admin/all')
 
     def post(self):
+        userip = self.request.remote_ip
         cmtid = self.get_argument("cmtid", None)
         if cmtid:
             Comment.cut_like(int(cmtid))
@@ -48,6 +50,7 @@ class AddUnlikeHandler(BaseHandler):
             self.redirect('/admin/all')
 
     def post(self):
+        userip = self.request.remote_ip
         cmtid = self.get_argument("cmtid", None)
         if cmtid:
             Comment.add_unlike(int(cmtid))
@@ -64,6 +67,7 @@ class CutUnlikeHandler(BaseHandler):
             self.redirect('/admin/all')
 
     def post(self):
+        userip = self.request.remote_ip
         cmtid = self.get_argument("cmtid", None)
         if cmtid:
             Comment.cut_unlike(int(cmtid))

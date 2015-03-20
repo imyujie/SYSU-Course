@@ -153,6 +153,10 @@ $('.js-add-course-form').on('submit', function(event) {
         addTips('貌似还没填写你的名字');
         return;
     }
+    if (comment.length < 15) {
+        addTips('评论需要大于15个字哦');
+        return;
+    }
     var postData = $(this).serialize();
     postData += '&rating='+formRat.get()+'&step=1';
     console.log(postData);
@@ -293,6 +297,10 @@ $('.js-detail-comment-form').on('submit', function(event){
     }
     if (!author) {
         addTips('貌似还没填写你的名字');
+        return;
+    }
+    if (content.length < 15) {
+        addTips('评论内容要 15 个字以上哦');
         return;
     }
     postData += '&rating='+rating;

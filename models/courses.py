@@ -111,11 +111,14 @@ class Course(object):
     @staticmethod
     def update_course(info):
         db["course"].find_and_modify(
-            {"_id": info.cid},
+            {"_id": info["cid"]},
             update={"$set": {
                 "teacher": info["teacher"],
                 "name": info["name"],
                 "category": info["category"],
+                "status": info["status"],
+                "sums": info["sums"],
+                "count": info["count"]
             }}
         )
 
@@ -162,11 +165,11 @@ class Course(object):
 
     @staticmethod
     def delete_course_by_status():
-        db["course"].remove({"status": "0"})
+        db["course"].remove({"status": 0})
 
     @staticmethod
     def get_course_by_cid(cid):
-        item = db["course"].find_one({"_id", cid})
+        item = db["course"].find_one({"_id": int(cid)})
         return Course(item["_id"], item["name"], item["teacher"], item["category"], item["cmtids"], item["status"], item["count"], item["sum"])
 
     @staticmethod

@@ -1,4 +1,4 @@
-/*! SYSU Course - v0.0.1 - 2015-03-19
+/*! SYSU Course - v0.0.1 - 2015-03-20
 * lovesysu.com
 * Copyright (c) 2015 LStudio; Licensed  */
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"jquery":[function(require,module,exports){
@@ -10416,7 +10416,8 @@ var cardTpl = function(item) {
     +'                '+ item.comments +' 条评论'
     +'            </span>'
     +'        </div>'
-    +'    </a>';
+    +'    </a>'
+    +'</div>';
     return res;
 };
 
@@ -10449,6 +10450,7 @@ Modal.prototype = {
         });
     },
     close: function() {
+        this.reinit();
         this.mask.fadeOut();
     },
     setTitle: function(str) {
@@ -10466,6 +10468,9 @@ Modal.prototype = {
     },
     reset: function() {
         this.footer.removeClass('hidden');
+    },
+    reinit: function() {
+        this.modal.find('#confirm').removeClass('js-force').addClass('js-normal');
     }
 };
 
@@ -10531,8 +10536,8 @@ $('.js-add-course-form').on('submit', function(event) {
         } else if (data === '0') {
             alert('fail');
         } else if (data === '2') {
-            mdd.setBody('<h3>该课程已存在</h3>');
-            mdd.hideFooter();
+            mdd.setBody('<h3>该课程已存在，是否确定添加为一条新评论？</h3>');
+            $('.modal #confirm').removeClass('js-normal').addClass('js-force');
             mdd.open();
         } else {
             var resList = $.parseJSON(data);
@@ -10551,8 +10556,28 @@ $('.js-add-course-form').on('submit', function(event) {
     .always(function() {
         console.log("complete");
     });
-    $('#confirm').on('click', function(event){
+    $('body').on('click', '#confirm.js-normal', function(event) {
         postData = postData.replace('&step=1', '&step=2');
+        $.ajax({
+            url: '/add/course',
+            type: 'POST',
+            data: postData,
+        })
+        .done(function(data) {
+            if (data === '1') {
+                mdd.close();
+                $that.trigger('reset');
+            }
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
+        });
+    });
+    $('body').on('click', '#confirm.js-force', function(event) {
+        postData = postData.replace('&step=1', '&step=2&force=1');
         $.ajax({
             url: '/add/course',
             type: 'POST',

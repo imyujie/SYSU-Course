@@ -13,7 +13,7 @@ class AddLikeHandler(BaseHandler):
         cmtid = self.get_argument("cmtid", None)
         if cmtid:
             Comment.add_like(int(cmtid))
-            self.redirect('/admin/all')
+            self.redirect('/admin')
 
     def post(self):
         userip = self.request.remote_ip
@@ -30,7 +30,7 @@ class CutLikeHandler(BaseHandler):
         cmtid = self.get_argument("cmtid", None)
         if cmtid:
             Comment.cut_like(int(cmtid))
-            self.redirect('/admin/all')
+            self.redirect('/admin')
 
     def post(self):
         userip = self.request.remote_ip
@@ -47,7 +47,7 @@ class AddUnlikeHandler(BaseHandler):
         cmtid = self.get_argument("cmtid", None)
         if cmtid:
             Comment.add_unlike(int(cmtid))
-            self.redirect('/admin/all')
+            self.redirect('/admin')
 
     def post(self):
         userip = self.request.remote_ip
@@ -64,7 +64,7 @@ class CutUnlikeHandler(BaseHandler):
         cmtid = self.get_argument("cmtid", None)
         if cmtid:
             Comment.cut_unlike(int(cmtid))
-            self.redirect('/admin/all')
+            self.redirect('/admin')
 
     def post(self):
         userip = self.request.remote_ip
@@ -97,7 +97,7 @@ class DeleteCommentHandler(BaseHandler):
         cmtid = self.get_argument("cmtid", None)
         if cmtid:
             Comment.change_status(int(cmtid), 0)
-            self.redirect('/admin/all')
+            self.write('1')
 
     def post(self):
         pass
@@ -108,7 +108,7 @@ class UndoDeleteCommentHandler(BaseHandler):
         cmtid = self.get_argument("cmtid", None)
         if cmtid:
             Comment.change_status(int(cmtid), 1)
-            self.redirect('/admin/all')
+            self.write('1')
 
     def post(self):
         pass
@@ -117,7 +117,8 @@ class RemoveCommentHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
         Comment.delete_comment_by_status()
-        self.redirect('/admin/all')
+        self.redirect('/admin')
 
     def post(self):
         pass
+

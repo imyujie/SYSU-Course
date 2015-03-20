@@ -1204,7 +1204,8 @@ var cardTpl = function(item) {
     +'                '+ item.comments +' 条评论'
     +'            </span>'
     +'        </div>'
-    +'    </a>';
+    +'    </a>'
+    +'</div>';
     return res;
 };
 
@@ -1237,6 +1238,7 @@ Modal.prototype = {
         });
     },
     close: function() {
+        this.reinit();
         this.mask.fadeOut();
     },
     setTitle: function(str) {
@@ -1254,6 +1256,9 @@ Modal.prototype = {
     },
     reset: function() {
         this.footer.removeClass('hidden');
+    },
+    reinit: function() {
+        this.modal.find('#confirm').removeClass('js-force').addClass('js-normal');
     }
 };
 
@@ -1319,8 +1324,8 @@ $('.js-add-course-form').on('submit', function(event) {
         } else if (data === '0') {
             alert('fail');
         } else if (data === '2') {
-            mdd.setBody('<h3>该课程已存在</h3>');
-            mdd.hideFooter();
+            mdd.setBody('<h3>该课程已存在，是否确定添加为一条新评论？</h3>');
+            $('.modal #confirm').removeClass('js-normal').addClass('js-force');
             mdd.open();
         } else {
             var resList = $.parseJSON(data);
@@ -1339,8 +1344,28 @@ $('.js-add-course-form').on('submit', function(event) {
     .always(function() {
         console.log("complete");
     });
-    $('#confirm').on('click', function(event){
+    $('body').on('click', '#confirm.js-normal', function(event) {
         postData = postData.replace('&step=1', '&step=2');
+        $.ajax({
+            url: '/add/course',
+            type: 'POST',
+            data: postData,
+        })
+        .done(function(data) {
+            if (data === '1') {
+                mdd.close();
+                $that.trigger('reset');
+            }
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
+        });
+    });
+    $('body').on('click', '#confirm.js-force', function(event) {
+        postData = postData.replace('&step=1', '&step=2&force=1');
         $.ajax({
             url: '/add/course',
             type: 'POST',

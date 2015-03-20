@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>数据录入</title>
+	<link rel="stylesheet" type="text/css" href="{{ static_url('dist/css/bootstrap.min.css') }}">
+	<script src="{{ static_url('dist/js/tmp.js') }}"></script>
+	<script src="{{ static_url('dist/js/bootstrap.min.js') }}"></script>
+	<script src="{{ static_url('dist/js/databack.js') }}"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="header">
+			<div class="page-header">
+				<h2>数据录入 <small>后台系统 <a href="/signout">登出</a></small></h2>
+			</div>
+		</div>
+		<div class="data-content">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>name</th>
+						<th>category</th>
+						<th>status</th>
+						<th>sums</th>
+						<th>count</th>
+						<th>teacher</th>
+						<th>comments</th>
+						<th>control</th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					{%for i in courses%}
+					<tr>
+						<td>{{ i.cid }}</td>
+						<td>{{ i.name }}</td>
+						<td>{{ i.category }}</td>
+						<td>{{ i.status }}</td>
+						<td>{{ i.sums }}</td>
+						<td>{{ i.count }}</td>
+						<td>{{ i.teacher }}</td>
+						<td>
+							<button type="button" class="btn btn-info js-comment" data-target="#myModal" data-course="{{ i.cid }}">评论</button>
+						</td>
+						<td>
+							{% if i.status == 1 %}
+								<button type="button" class="btn btn-info" data-course="{{ i.cid }}" onclick="window.location='/delete/course?cid={{ i.cid }}'">删除</button>
+							{% else %}
+								<button type="button" class="btn btn-info" data-course="{{ i.cid }}" onclick="window.location='/undo/course?cid={{ i.cid }}'">恢复</button>
+							{% end %}
+							<button type="button" class="btn btn-info" data-course="{{ i.cid }}" onclick="window.location='/update?cid={{ i.cid }}'">修改</button>
+						</td>
+					</tr>
+					{% end %}
+				</tbody>
+			</table>
+		</div>
+		<div class="modal fade" id="myModal">
+			<div class="modal-dialog" style="width: 800px;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">评论</h4>
+					</div>
+					<div class="modal-body">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>cmtid</th>
+									<th>author</th>
+									<th>status</th>
+									<th>like</th>
+									<th>unlike</th>
+									<th>content</th>
+									<th style="min-width: 140px;">control</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer"></div>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<a href="/remove/course">删除课程</a>
+			<a href="/remove/comment">| 删除评论</a>
+		</div>
+	</div>
+</body>
+</html>

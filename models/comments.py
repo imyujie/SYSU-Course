@@ -42,7 +42,7 @@ class Comment(object):
     
     @staticmethod
     def delete_comment_by_status():
-        db["comment"].remove({"status": "0"})
+        db["comment"].remove({"status": 0})
 
     @staticmethod
     def add_like(cmtid):
@@ -75,3 +75,16 @@ class Comment(object):
     def get_next_sequence_value():
         doc = db['cmtcounters'].find_and_modify({"_id": "product"}, update={"$inc":{"seqcount": 1}}, upsert=True)
         return doc['seqcount']
+
+    @staticmethod
+    def update_comment(info):
+        db["comment"].find_and_modify(
+            {"_id": info["cmtid"]},
+            update={"$set": {
+                "author": info["author"],
+                "like": info["like"],
+                "unlike": info["unlike"],
+                "status": info["status"],
+                "conmment": info["conmment"]
+            }}
+        )

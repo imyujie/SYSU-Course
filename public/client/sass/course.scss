@@ -737,9 +737,12 @@ $resultSideWidth: 120px;
         .modal-body {
             @include border-box;
             padding: 20px 32px;
+            height: 280px;
             overflow-y: auto;
             h2 {
-                margin: 10px;
+                color: rgba(0,0,0,.7);
+            }
+            h3 {
                 color: rgba(0,0,0,.7);
             }
         }

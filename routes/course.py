@@ -57,7 +57,6 @@ def sum_of_categories(courses):
 
 class DetailHandler(BaseHandler):
     def get(self, category, teacher, name):
-        userip = self.request.remote_ip
         if category == "体育":
             category = 5
         if category == "公选":
@@ -85,6 +84,7 @@ class RemoveCourseHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
         Course.delete_course_by_status()
+        self.redirect('/admin')
 
     def post(self):
         pass
@@ -95,6 +95,7 @@ class DeleteCourseHandler(BaseHandler):
         cid = self.get_argument('cid', None)
         if cid:
             Course.change_status(int(cid), 0)
+            self.redirect('/admin')
 
     def post(self):
         pass
@@ -105,6 +106,7 @@ class UndoDeleteCourseHandler(BaseHandler):
         cid = self.get_argument('cid', None)
         if cid:
             Course.change_status(int(cid), 1)
+            self.redirect('/admin')
 
     def post(self):
         pass
@@ -123,11 +125,17 @@ class AddCourseHandler(BaseHandler):
         author = self.get_argument('author', None)
         step = self.get_argument('step', None)
         rating = self.get_argument('rating', None)
+        force = self.get_argument('force', None)
         step = int(step)
         if title and teacher and category and comment and author and rating:
             resu = Course.get_course_by_cate_teac_name(int(category), teacher, title)
-            if resu:
+            if not force and resu:
                 self.write('2')
+                return
+            elif resu and int(force) == 1:
+                cmtid = Course.add_comment(resu.cid, comment, author)
+                Course.add_rating(resu.cid, int(rating))
+                self.write("1")
                 return
             res = Course.get_course_by_name(title)
             if res and step == 1:
@@ -159,3 +167,22 @@ class ExportHandler(BaseHandler):
         
         json_str = json.dumps(adict, ensure_ascii=False)
         self.render('export.html', data=json_str, page_title="export")
+
+
+class GetCommentHandler(BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        cid = self.get_argument('cid', None)
+        if cid:
+            res = Course.get_course_by_cid(int(cid))
+            res_list = res.get_all_comments()
+            adict = {"all": []}
+            for item in res_list:
+                adict["all"].append({"cmtid": item.cmtid, "comment": item.comment, "like": item.like, "unlike": item.unlike, "author": item.author, "status": item.status})
+            json_str = json.dumps(adict, ensure_ascii=False)
+            self.write(json_str)
+        else:
+            self.writer(0)
+
+    def post(self):
+        pass

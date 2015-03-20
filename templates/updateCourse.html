@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> <!--响应式布局-->
+	<title>数据录入</title>
+	<link rel="stylesheet" type="text/css" href="{{ static_url("dist/css/bootstrap.min.css") }}">
+	<script src="{{ static_url("dist/js/tmp.js") }}"></script>
+	<script src="{{ static_url("dist/js/bootstrap.min.js") }}"></script>
+	<script src="{{ static_url("dist/js/databack.js") }}"></script>
+</head>
+<body>
+	<div class="container">
+
+		<div class="header">
+			<div class="page-header">
+	  		<h2>数据录入 <small>后台系统</small></h2>
+			</div>
+		</div>
+
+		<form class="form-horizontal" action="/update" method="post">
+			{% raw xsrf_form_html() %}
+		  <div class="form-group">
+		  	<input type="number" value="{{ course.cid }}" name="cid" style="display:none;">
+		    <label class="col-sm-2 control-label">cid</label>
+		    <div class="col-sm-10">
+		      <p class="form-control-static">{{ course.cid }}</p>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="name" class="col-sm-2 control-label">name</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="name" value="{{ course.name }}" name="name" required>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="category" class="col-sm-2 control-label">category</label>
+		    <div class="col-sm-10">
+		      <input type="number" class="form-control" id="category" value="{{ course.category }}" name="category" required>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="status" class="col-sm-2 control-label">status</label>
+		    <div class="col-sm-10">
+		      <input type="number" class="form-control" id="status" value="{{ course.status }}" name="status" required>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="sums" class="col-sm-2 control-label">sums</label>
+		    <div class="col-sm-10">
+		      <input type="number" class="form-control" id="sums" value="{{ course.sums }}" name="sums" required>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="count" class="col-sm-2 control-label">count</label>
+		    <div class="col-sm-10">
+		      <input type="number" class="form-control" id="count" value="{{ course.count }}" name="count" required>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="teacher" class="col-sm-2 control-label">teacher</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="teacher" value="{{ course.teacher }}" name="teacher" required>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		  	<label for="button" class="col-sm-2 control-label"></label>
+		    <button type="submit" class="btn btn-info" id="button">提交</button>
+		  </div>
+		</form>
+
+	</div>
+</body>
+</html>

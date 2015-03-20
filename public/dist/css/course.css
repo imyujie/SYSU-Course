@@ -1,0 +1,38 @@
+* {
+	font-family: "微软雅黑";
+}
+
+.container {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.container-admin {
+	width: 640px;
+	margin: 0 auto;
+}
+
+.container-admin .header {
+	text-align: center;
+}
+
+.limit-width input {
+	width: 250px;
+}
+
+.limit-input {
+	margin-left: 200px;
+}
+
+.limit-width label {
+	font-size: 20px;
+	margin-left: -180px;
+}
+
+.container-admin .content {
+	text-align: center;
+}
+
+.footer a {
+	text-decoration: none;
+}

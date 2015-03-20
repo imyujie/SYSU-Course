@@ -4,6 +4,11 @@ import os.path
 import tornado.web
 import hashlib
 
+import json
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 from models.comments import Comment
 from models.courses import Course
 from base import BaseHandler
@@ -49,5 +54,47 @@ class ListAllCoursesHandler(BaseHandler):
 class AdminHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
-        self.render('admin.html')
+        courses = Course.get_all_courses()
+        self.render('admin.html',
+            courses=courses,
+            )
+    @tornado.web.authenticated
+    def post(self):
+        cid = self.get_argument('cid', None)
+        if cid:
+            comments = Course.get_all_comments(cid)
+            a = []
+            for i in comments:
+                a.append({
+                    'cmtid': i.cmtid,
+                    'author': i.author,
+                    'content': i.comment,
+                    'like': i.like,
+                    'unlike': i.unlike,
+                    'status': i.status
+                    })
+            b = {
+            'all': a
+            }
+            json_str = json.dumps(b, ensure_asii = False)
+            self.write(json_str)
+        else:
+            self.write('0')
+
+class UpdateHandler(BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        cid = self.get_argument('cid')
+        cmtid = self.get_argument('cmtid')
+        if cid:
+            course = Course.get_course_by_cid(cid)
+            self.render('updateCourse.html',
+                course=course
+                )
+        if cmtid:
+            comment = Comment.get_comment_by_cmtid(cmtid)
+            self.render('updateComment.html',
+                comment=comment
+                )
+
 
